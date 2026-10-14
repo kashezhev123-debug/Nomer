@@ -2,140 +2,124 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Охота за номерами — Ultimate</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#090b12">
+<title>Nomer — охота за номерами</title>
 <style>
-:root{--bg:#070910;--card:#111625;--card2:#171d2d;--line:#2a334a;--text:#f6f7ff;--muted:#929bb0;--violet:#7957ff;--gold:#ffd35c;--green:#42e5a0;--red:#ff5577}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,sans-serif}
-#app{min-height:100vh;padding:16px 13px 45px;background:radial-gradient(circle at 50% -10%,#30186b,#0b0d16 43%,#070910 80%)}
-.wrap{max-width:820px;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:10px}h1{margin:0;font-size:25px}.muted{color:var(--muted);font-size:12px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin:15px 0 8px}.stat,.card{background:#111625ee;border:1px solid var(--line);border-radius:19px}.stat{padding:10px}.stat b{display:block;font-size:16px}.stat span{font-size:10px;color:var(--muted)}
-.progress{height:8px;background:#22283a;border-radius:9px;overflow:hidden;margin-bottom:12px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#7453ff,#d05cff);transition:.4s}
-.card{padding:14px;margin:9px 0}.choices,.nav{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.choice,.tab,.small{color:var(--text);background:#202638;border:1px solid #333d55;border-radius:11px;padding:10px}.choice.active,.tab.active{background:#30245f;border-color:#8e70ff}
-.open{width:100%;margin-top:8px;padding:14px;border:0;border-radius:13px;background:linear-gradient(135deg,#7253ff,#a747ff);color:#fff;font-weight:900}
-.nav{grid-template-columns:repeat(5,1fr);margin:12px 0 8px}.tab{font-size:11px;padding:9px}.section{display:none}.section.active{display:block}
-.item{display:flex;justify-content:space-between;gap:9px;align-items:center;padding:12px 0;border-bottom:1px solid #252c3d}.item:last-child{border:0}.plate{font-size:18px;font-weight:900;letter-spacing:.6px}.badges{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}.badge{font-size:9px;background:#252d40;border-radius:7px;padding:4px 6px}.price{color:var(--gold);font-weight:800}.small{padding:7px 8px;font-size:11px;white-space:nowrap}.saved{background:#23523f}.empty{text-align:center;padding:25px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.mini{background:#171d2d;border:1px solid var(--line);border-radius:14px;padding:12px}.mini h3{margin:0 0 5px;font-size:14px}.mini p{margin:3px 0;color:var(--muted);font-size:11px}.done{border-color:#3b9d75}.bar{height:6px;background:#252c3c;border-radius:9px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;background:linear-gradient(90deg,#7756ff,#42e5a0)}
-.filter{width:100%;padding:10px;background:#171d2d;color:#fff;border:1px solid var(--line);border-radius:11px;margin-bottom:8px}
-#fx{position:fixed;inset:0;display:none;place-items:center;z-index:50;background:#0008;pointer-events:none}.fxbox{text-align:center;animation:pop .8s}.fxicon{font-size:70px}.fxtitle{font-size:31px;font-weight:1000;text-shadow:0 0 25px currentColor}.fxsub{font-weight:800}.p{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;animation:fly 1.3s forwards}
-@keyframes pop{0%{transform:scale(.2);opacity:0}45%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(700deg);opacity:0}}
-@media(max-width:620px){.stats{grid-template-columns:repeat(2,1fr)}.nav{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.plate{font-size:16px}}
+:root{--bg:#080a10;--panel:#11141d;--panel2:#181c27;--line:#292f3d;--text:#f5f7fb;--muted:#8e96a8;--violet:#735cff;--green:#45e29b;--gold:#ffd15a;--red:#ff5577}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0}body{padding-bottom:env(safe-area-inset-bottom)}
+.app{min-height:100vh;max-width:520px;margin:auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(94px + env(safe-area-inset-bottom));background:radial-gradient(circle at 50% -10%,#252047 0,#0c0e16 38%,#080a10 72%)}
+.header{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:900;letter-spacing:-.7px}.gear{width:38px;height:38px;border-radius:13px;background:#171b25;border:1px solid var(--line);font-size:18px}
+.topstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.stat{background:rgba(18,21,30,.92);border:1px solid var(--line);border-radius:16px;padding:10px 12px}.stat b{font-size:17px}.stat span{font-size:10px;color:var(--muted);display:block;margin-top:2px}
+.luck{margin-top:9px;background:#151924;border:1px solid var(--line);border-radius:13px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}.luck strong{color:#69e8aa}.luck small{color:var(--muted)}
+.card{margin-top:12px;background:linear-gradient(145deg,#151925,#10131c);border:1px solid #303646;border-radius:24px;padding:14px;box-shadow:0 20px 60px #0006}.cardhead{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
+.plate-stage{min-height:245px;display:grid;place-items:center;position:relative;overflow:hidden}.plate-stage:before{content:"";position:absolute;width:230px;height:130px;border-radius:50%;background:#7057ff33;filter:blur(35px)}
+.plate-wrap{position:relative;width:100%;max-width:360px}.plate{background:linear-gradient(#fafafa,#dfe3e7);color:#101319;border-radius:9px;border:3px solid #1b1e25;box-shadow:0 14px 35px #0008,0 0 0 1px #777;display:flex;align-items:center;justify-content:center;min-height:94px;font-size:37px;font-weight:1000;letter-spacing:2px;position:relative;transform:perspective(500px) rotateX(3deg)}
+.plate:after{content:"RUS";position:absolute;right:7px;bottom:3px;font-size:8px;font-weight:800;color:#222}.plate .region{font-size:24px;margin-left:5px}.plate.mini{min-height:72px;font-size:26px}
+.rarity{text-align:center;margin-top:11px;font-weight:900;font-size:19px}.subline{text-align:center;color:var(--muted);font-size:11px;margin-top:3px}.value{text-align:center;color:var(--gold);font-size:21px;font-weight:950;margin-top:8px}
+.bonus{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0}.tag{padding:6px 8px;border-radius:9px;background:#242938;border:1px solid #343c4e;font-size:10px;color:#dce2ee}
+.actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px}.btn{padding:14px;border-radius:14px;background:#202532;border:1px solid #32394b;font-weight:850}.spin{background:linear-gradient(135deg,#7256ff,#a448ff);box-shadow:0 9px 28px #764cff3d}.btn:disabled{opacity:.45}
+.next{margin-top:9px;text-align:center;color:var(--muted);font-size:10px}.progress{height:6px;background:#252b38;border-radius:8px;overflow:hidden;margin-top:6px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#6f57ff,#d15cff)}
+.bottom{position:fixed;z-index:30;left:50%;bottom:0;transform:translateX(-50%);width:min(520px,100%);padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#0b0d13ed;border-top:1px solid #242a38;backdrop-filter:blur(16px);display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.nav{background:transparent;color:#81899b;font-size:9px;padding:6px 2px;border-radius:10px}.nav.active{color:#fff;background:#1b2030}.nav div{font-size:18px;margin-bottom:2px}
+.sheet{position:fixed;inset:0;z-index:40;background:#080a10f2;display:none;padding:18px 14px;overflow:auto}.sheet.open{display:block}.sheetin{max-width:520px;margin:auto}.sheettop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.close{background:#202532;border-radius:10px;padding:8px 11px}.list{background:#11141d;border:1px solid var(--line);border-radius:18px;padding:4px 12px}.row{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #252b37}.row:last-child{border-bottom:0}.row b{font-size:14px}.row small{display:block;color:var(--muted);margin-top:3px}.row button{background:#242a38;border-radius:9px;padding:7px 8px;font-size:10px}
+.empty{text-align:center;color:var(--muted);padding:30px 10px}
+.fx{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:#0009;pointer-events:none}.fx.on{display:grid}.fxbox{text-align:center;animation:pop .7s}.fxicon{font-size:65px}.fxtitle{font-size:31px;font-weight:1000}.fxsub{font-size:12px;font-weight:800}.spark{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;animation:fly 1.2s forwards}
+@keyframes pop{0%{transform:scale(.25);opacity:0}50%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(600deg);opacity:0}}
+.spinning{animation:shake .13s infinite}@keyframes shake{50%{transform:perspective(500px) rotateX(3deg) translateX(2px)}}
+.gold{color:#ffd15a;text-shadow:0 0 18px #ffd15a66}.red{color:#ff657f;text-shadow:0 0 18px #ff557766}.violet{color:#bf9bff;text-shadow:0 0 18px #9a70ff66}
+@media(min-width:700px){.app{min-height:100vh}.bottom{position:fixed}}
 </style>
 </head>
 <body>
-<div id="app"><div class="wrap">
-<div class="top"><div><h1>⚡ Охота за номерами</h1><div class="muted">Ultimate Collector Edition</div></div><b>УР. <span id="lvl">1</span></b></div>
-<div class="stats">
-<div class="stat"><b>⚡ <span id="energy">1000</span></b><span>+1 / 90 сек</span></div>
+<div class="app">
+<header class="header"><div><div class="brand">Nomer</div><div style="color:var(--muted);font-size:11px">Охота за редкими номерами</div></div><button class="gear" id="settings">⚙️</button></header>
+
+<section class="topstats">
+<div class="stat"><b>⚡ <span id="energy">1000</span></b><span>заряды · +1 / 90 сек</span></div>
 <div class="stat"><b>₽ <span id="money">10 000</span></b><span>баланс</span></div>
-<div class="stat"><b><span id="opened">0</span></b><span>открыто</span></div>
-<div class="stat"><b><span id="collection">0%</span></b><span>коллекция</span></div>
-</div>
-<div class="progress"><i id="xp"></i></div>
+</section>
+<div class="luck"><div>🍀 Удача <strong id="luck">x1.00</strong></div><small>Уровень <b id="level">1</b> · <span id="opened">0</span> открытий</small></div>
 
-<div class="card">
-<div class="muted">Сколько зарядов использовать?</div>
-<div class="choices"><button class="choice active" data-n="1">1 ⚡</button><button class="choice" data-n="3">3 ⚡</button><button class="choice" data-n="10">10 ⚡</button></div>
-<button class="open" id="open">Открыть номера</button>
-</div>
-
-<div class="nav">
-<button class="tab active" data-view="results">🎯 Охота</button>
-<button class="tab" data-view="garage">🚘 Гараж</button>
-<button class="tab" data-view="collection">📚 Коллекция</button>
-<button class="tab" data-view="quests">🎯 Задания</button>
-<button class="tab" data-view="achievements">🏆 Ачивки</button>
+<section class="card">
+<div class="cardhead"><span>ПОСЛЕДНИЙ НОМЕР</span><span id="type">🚗 Гражданский</span></div>
+<div class="plate-stage"><div class="plate-wrap"><div class="plate" id="plate">А 777 АА <span class="region">07</span></div></div></div>
+<div class="rarity" id="rarity">Готов к охоте</div>
+<div class="subline" id="subline">Нажми «Крутить», чтобы найти номер</div>
+<div class="value" id="value">—</div>
+<div class="bonus" id="bonus"></div>
+<div class="actions"><button class="btn" id="garageBtn">⭐ В гараж</button><button class="btn spin" id="spin">⚡ Крутить</button></div>
+<div class="next">Следующий уровень: <span id="nextText">100</span><div class="progress"><i id="levelBar"></i></div></div>
+</section>
 </div>
 
-<div id="results" class="section active"><div class="card" id="resultsList"></div></div>
-<div id="garage" class="section"><div class="card"><input class="filter" id="garageFilter" placeholder="🔎 Поиск номера..."><div id="garageList"></div></div></div>
-<div id="collection" class="section"><div class="card"><div id="collectionList"></div></div></div>
-<div id="quests" class="section"><div class="card"><div id="questList"></div></div></div>
-<div id="achievements" class="section"><div class="card"><div id="achievementList"></div></div></div>
-</div></div>
-<div id="fx"></div>
+<nav class="bottom">
+<button class="nav active" data-sheet="game"><div>🎰</div>Игра</button>
+<button class="nav" data-sheet="garage"><div>🚘</div>Гараж</button>
+<button class="nav" data-sheet="shop"><div>🛒</div>Магазин</button>
+<button class="nav" data-sheet="top"><div>🏆</div>Топ</button>
+<button class="nav" data-sheet="collection"><div>📚</div>Коллекция</button>
+</nav>
+
+<div class="sheet" id="sheet"><div class="sheetin"><div class="sheettop"><h2 id="sheetTitle">Гараж</h2><button class="close" id="close">Закрыть</button></div><div id="sheetBody"></div></div></div>
+<div class="fx" id="fx"></div>
 
 <script>
 const LETTERS="АВЕКМНОРСТУХ";
 const R=[["Обычный","⚪",500],["Необычный","🟢",3000],["Редкий","🔵",12000],["Эпический","🟣",60000],["Легендарный","🟠",300000],["Мифический","🔴",2500000]];
-const TYPES=[
-["civil","Гражданский","🚗",1],["military","Военный","🪖",5],["diplomatic","Дипломатический","🌐",12],["police","Полицейский","🚔",7],["taxi","Такси","🚕",3]
-];
-const REGIONS=["01","02","05","06","07","08","09","10","12","13","15","16","18","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","83","86","87","89","90","91","92","93","94","95","96","97","98","99"];
+const T=[["civil","Гражданский","🚗",1],["military","Военный","🪖",5],["diplomatic","Дипломатический","🌐",12],["police","Полицейский","🚔",7],["taxi","Такси","🚕",3]];
+const REG=["01","02","05","06","07","08","09","10","12","13","15","16","18","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","83","86","87","89","90","91","92","93","94","95","96","97","98","99"];
 const TH=[0,100,500,1500,4000,10000];
-let S=JSON.parse(localStorage.getItem("platehunt_ultimate")||"null")||{energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],quests:{open:0,special:0,legend:0,sell:0},ach:{}};
-let amount=1,currentView="results";
-const $=x=>document.getElementById(x),fmt=n=>Math.round(n).toLocaleString("ru-RU");
-function save(){localStorage.setItem("platehunt_ultimate",JSON.stringify(S))}
+let S=JSON.parse(localStorage.getItem("nomer_mobile_v1")||"null")||{energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],luck:1};
+let current=null,spinning=false;
+const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString("ru-RU");
+function save(){localStorage.setItem("nomer_mobile_v1",JSON.stringify(S))}
 function recharge(){let now=Date.now(),g=Math.floor((now-S.stamp)/90000);if(g>0){S.energy+=g;S.stamp+=g*90000;save()}}
-function level(){let x=0;for(let i=0;i<TH.length;i++)if(S.opened>=TH[i])x=i;return x}
-function rarity(min){let w=[62,20,9,5,3,1],sum=w.slice(min).reduce((a,b)=>a+b,0),x=Math.random()*sum;for(let i=min;i<w.length;i++){x-=w[i];if(x<=0)return i}return 5}
-function getType(){let x=Math.random(),boost=1+level()*.12;if(x<.0035*boost)return TYPES[1];if(x<.005*boost)return TYPES[2];if(x<.01*boost)return TYPES[3];if(x<.018*boost)return TYPES[4];return TYPES[0]}
+function lvl(){let x=0;for(let i=0;i<TH.length;i++)if(S.opened>=TH[i])x=i;return x}
+function rarity(min){let w=[62,20,9,5,3,1],x=Math.random()*w.slice(min).reduce((a,b)=>a+b,0);for(let i=min;i<6;i++){x-=w[i];if(x<=0)return i}return 5}
+function type(){let x=Math.random(),b=1+lvl()*.12;if(x<.0035*b)return T[1];if(x<.005*b)return T[2];if(x<.01*b)return T[3];if(x<.018*b)return T[4];return T[0]}
 function make(){
- let r=rarity(level()),t=getType(),region=REGIONS[Math.floor(Math.random()*REGIONS.length)];
+ let ri=rarity(lvl()),t=type(),region=REG[Math.floor(Math.random()*REG.length)];
  let n=Math.floor(Math.random()*1000).toString().padStart(3,"0"),a=LETTERS[Math.floor(Math.random()*LETTERS.length)],b=LETTERS[Math.floor(Math.random()*LETTERS.length)],c=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let bonus=0;if(n[0]===n[1]&&n[1]===n[2])bonus+=2;if(n[0]===n[2])bonus++;if(a===b&&b===c)bonus+=2;if(["001","007","111","222","333","444","555","666","777","888","999"].includes(n))bonus+=2;
- let text=t[0]=="civil"?`${a} ${n} ${b}${c} ${region}`:t[0]=="military"?`М ${n}${Math.floor(Math.random()*10)} ${region}`:t[0]=="diplomatic"?`CD ${n} ${region}`:t[0]=="police"?`П ${n}${Math.floor(Math.random()*10)} ${region}`:`Т ${n} ${region}`;
- let price=Math.round(R[r][2]*(.75+Math.random()*.7)*(1+bonus*.35)*t[3]/10)*10;
- return {id:Date.now()+"_"+Math.random().toString(36).slice(2),text,rank:r,rarity:R[r][0],price,type:t[0],typeName:t[1],typeIcon:t[2],region};
+ let bonus=0,tags=[];if(n[0]===n[1]&&n[1]===n[2]){bonus+=2;tags.push("три одинаковые ×3")}else if(n[0]===n[2]){bonus++;tags.push("зеркальные цифры ×1.5")}if(a===b&&b===c){bonus+=2;tags.push("три буквы ×3")}if(["001","007","777","888","999"].includes(n)){bonus+=2;tags.push("легендарная комбинация ×3")}
+ let text=t[0]=="civil"?`${a} ${n} ${b}${c}`:t[0]=="military"?`М ${n}${Math.floor(Math.random()*10)}`:t[0]=="diplomatic"?`CD ${n}`:t[0]=="police"?`П ${n}${Math.floor(Math.random()*10)}`:`Т ${n}`;
+ let price=Math.round(R[ri][2]*(.75+Math.random()*.7)*(1+bonus*.35)*t[3]/10)*10;
+ return{id:Date.now()+"_"+Math.random().toString(36).slice(2),text,region,rank:ri,rarity:R[ri][0],type:t[0],typeName:t[1],icon:t[2],price,tags}
 }
-function garageHas(id){return S.garage.some(x=>x.id===id)}
-function toggleGarage(id){let x=S.history.find(a=>a.id===id)||S.garage.find(a=>a.id===id);if(!x)return;if(garageHas(id))S.garage=S.garage.filter(a=>a.id!==id);else S.garage.unshift(x);save();render()}
-function sell(id){let i=S.history.findIndex(x=>x.id===id);if(i<0)return;let x=S.history[i];S.money+=x.price;S.quests.sell++;S.history.splice(i,1);save();render()}
-function row(x,garage=false){
- return `<div class="item"><div><div class="plate">${x.typeIcon} ${x.text}</div><div class="badges"><span class="badge">${R[x.rank][1]} ${x.rarity}</span><span class="badge">${x.typeName}</span><span class="badge">регион ${x.region}</span><span class="price">₽ ${fmt(x.price)}</span></div></div><div><button class="small ${garageHas(x.id)?"saved":""}" onclick="toggleGarage('${x.id}')">${garageHas(x.id)?"⭐ В гараже":"⭐ В гараж"}</button>${!garage?`<button class="small" onclick="sell('${x.id}')" style="margin-top:5px">Продать</button>`:""}</div></div>`
+function plateText(x){return `${x.text} <span class="region">${x.region}</span>`}
+function update(){
+ recharge();let l=lvl(),next=TH[l+1]||TH[l],prev=TH[l],pct=l==5?100:Math.min(100,(S.opened-prev)/(next-prev)*100);
+ $("energy").textContent=fmt(S.energy);$("money").textContent=fmt(S.money);$("level").textContent=l+1;$("opened").textContent=S.opened;$("luck").textContent="x"+S.luck.toFixed(2);$("levelBar").style.width=pct+"%";$("nextText").textContent=l==5?"MAX":next;
+ if(current){$("plate").innerHTML=plateText(current);$("type").textContent=current.icon+" "+current.typeName;$("rarity").textContent=R[current.rank][1]+" "+current.rarity;$("subline").textContent="Регион "+current.region;$("value").textContent="₽ "+fmt(current.price);$("bonus").innerHTML=current.tags.map(t=>`<span class="tag">${t}</span>`).join("");$("garageBtn").textContent=S.garage.some(x=>x.id===current.id)?"⭐ В гараже":"⭐ В гараж"}
 }
-function fx(items){
- let b=items.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];if(b.rank<2&&b.type=="civil")return;
- let f=$("fx");f.innerHTML=`<div class="fxbox"><div class="fxicon">${b.typeIcon}</div><div class="fxtitle">${b.rarity.toUpperCase()}</div><div class="fxsub">${b.text} · ${b.typeName}</div></div>`;f.style.display="grid";
- for(let i=0;i<35;i++){let p=document.createElement("i");p.className="p";p.style.left="50%";p.style.top="50%";p.style.setProperty("--x",(Math.random()*600-300)+"px");p.style.setProperty("--y",(Math.random()*650-325)+"px");f.appendChild(p)}
- setTimeout(()=>f.style.display="none",1900)
+function effect(x){
+ if(x.rank<2&&x.type=="civil")return;let f=$("fx"),color=x.rank>=5?"red":x.rank>=4?"gold":"violet";
+ f.innerHTML=`<div class="fxbox ${color}"><div class="fxicon">${x.icon}</div><div class="fxtitle">${x.rarity.toUpperCase()}</div><div class="fxsub">${x.text} ${x.region} · ${x.typeName}</div></div>`;f.classList.add("on");
+ for(let i=0;i<35;i++){let p=document.createElement("i");p.className="spark";p.style.left="50%";p.style.top="50%";p.style.setProperty("--x",(Math.random()*600-300)+"px");p.style.setProperty("--y",(Math.random()*650-325)+"px");f.appendChild(p)}
+ setTimeout(()=>f.classList.remove("on"),1900)
 }
-const allTarget=120; 
-function render(){
- recharge();let l=level(),next=TH[l+1]||TH[l],prev=TH[l],pct=l==5?100:Math.min(100,(S.opened-prev)/(next-prev)*100);
- $("energy").textContent=fmt(S.energy);$("money").textContent=fmt(S.money);$("opened").textContent=fmt(S.opened);$("lvl").textContent=l+1;$("xp").style.width=pct+"%";
- $("collection").textContent=Math.min(100,Math.round(S.unique.length/allTarget*100))+"%";
- $("resultsList").innerHTML=S.history.length?S.history.slice(0,30).map(x=>row(x)).join(""):`<div class="empty">🎯 Открывай номера и начинай охоту.</div>`;
- let q=$("garageFilter").value.toLowerCase();let g=S.garage.filter(x=>x.text.toLowerCase().includes(q));$("garageList").innerHTML=g.length?g.map(x=>row(x,true)).join(""):`<div class="empty">🚘 Гараж пуст.</div>`;
- renderCollection();renderQuests();renderAchievements();
+function spin(){
+ if(spinning)return;recharge();if(S.energy<1){alert("Недостаточно ⚡");return}
+ spinning=true;S.energy--;S.opened++;let final=make(),p=$("plate");p.classList.add("spinning");$("spin").disabled=true;
+ let timer=0,interval=setInterval(()=>{let fake=make();p.innerHTML=plateText(fake);$("rarity").textContent=R[fake.rank][1]+" "+fake.rarity;$("value").textContent="₽ "+fmt(fake.price);timer+=90;if(timer>=1100){clearInterval(interval);current=final;p.classList.remove("spinning");$("spin").disabled=false;S.history.unshift(final);S.history=S.history.slice(0,80);if(!S.unique.some(x=>x.text===final.text&&x.region===final.region&&x.type===final.type))S.unique.unshift(final);S.unique=S.unique.slice(0,500);S.luck=Math.min(3,S.luck+(final.rank>=3?.01:.002));save();update();effect(final);spinning=false}},90)
 }
-function renderCollection(){
- let groups=TYPES.map(t=>{let n=S.unique.filter(x=>x.type==t[0]).length;return `<div class="mini"><h3>${t[2]} ${t[1]}</h3><p>${n} уникальных номеров</p><div class="bar"><i style="width:${Math.min(100,n/20*100)}%"></i></div></div>`}).join("");
- let regs=new Set(S.unique.map(x=>x.region)).size;
- $("collectionList").innerHTML=`<div class="grid">${groups}<div class="mini"><h3>🗺️ Регионы</h3><p>${regs} / ${REGIONS.length} регионов</p><div class="bar"><i style="width:${regs/REGIONS.length*100}%"></i></div></div><div class="mini"><h3>💎 Всего уникальных</h3><p>${S.unique.length} / ${allTarget}+</p><div class="bar"><i style="width:${Math.min(100,S.unique.length/allTarget*100)}%"></i></div></div></div>`;
+$("spin").onclick=spin;
+$("garageBtn").onclick=()=>{if(!current)return;if(S.garage.some(x=>x.id===current.id))S.garage=S.garage.filter(x=>x.id!==current.id);else S.garage.unshift(current);save();update()}
+function openSheet(kind){
+ let title={garage:"🚘 Гараж",shop:"🛒 Магазин",top:"🏆 Топ",collection:"📚 Коллекция"}[kind]||"Nomer";$("sheetTitle").textContent=title;
+ let body="";
+ if(kind=="garage"){body=S.garage.length?`<div class="list">${S.garage.map(x=>`<div class="row"><div><b>${x.icon} ${x.text} ${x.region}</b><small>${R[x.rank][1]} ${x.rarity} · ₽ ${fmt(x.price)}</small></div><button onclick="removeGarage('${x.id}')">Убрать</button></div>`).join("")}</div>`:`<div class="empty">Гараж пуст.<br>Сохраняй номера после крутки.</div>`}
+ if(kind=="collection"){let unique=S.unique.length,regions=new Set(S.unique.map(x=>x.region)).size;body=`<div class="list"><div class="row"><div><b>💎 Уникальных номеров</b><small>${unique}</small></div></div><div class="row"><div><b>🗺️ Регионы</b><small>${regions} / ${REG.length}</small></div></div>${T.map(t=>`<div class="row"><div><b>${t[2]} ${t[1]}</b><small>${S.unique.filter(x=>x.type==t[0]).length} найдено</small></div></div>`).join("")}</div>`}
+ if(kind=="shop"){body=`<div class="grid"><div class="mini"><b>⚡ Большой заряд</b><p>+25 ⚡</p><button class="btn" onclick="buyEnergy()">Купить · ₽ 2 500</button></div><div class="mini"><b>🍀 Удача</b><p>+0.10 к множителю</p><button class="btn" onclick="buyLuck()">Купить · ₽ 15 000</button></div></div>`}
+ if(kind=="top"){body=`<div class="list"><div class="row"><div><b>👑 Твой рейтинг</b><small>Уровень ${lvl()+1} · ${S.opened} открытий</small></div></div><div class="row"><div><b>💎 Коллекция</b><small>${S.unique.length} уникальных</small></div></div><div class="row"><div><b>🚘 Гараж</b><small>${S.garage.length} номеров</small></div></div></div>`}
+ $("sheetBody").innerHTML=body;$("sheet").classList.add("open")
 }
-const QUESTS=[
- ["open","Охотник","Открой 100 номеров",100,"⚡ +100"],
- ["special","Спецслужбы","Найди 5 спецномеров",5,"₽ 25 000"],
- ["legend","Легенда","Найди легендарный или выше",1,"⚡ +250"],
- ["sell","Торговец","Продай 20 номеров",20,"₽ 50 000"]
-];
-function renderQuests(){
- $("questList").innerHTML=QUESTS.map(q=>{let v=S.quests[q[0]]||0,target=q[3],done=v>=target;return `<div class="mini ${done?"done":""}" style="margin-bottom:8px"><h3>${done?"✅":"🎯"} ${q[1]}</h3><p>${q[2]} · ${Math.min(v,target)} / ${target}</p><p>Награда: ${q[4]}</p><div class="bar"><i style="width:${Math.min(100,v/target*100)}%"></i></div></div>`}).join("");
-}
-const ACH=[
- ["first","🥉","Первый номер","Открой 1 номер",()=>S.opened>=1],
- ["hundred","🔥","Охотник","Открой 100 номеров",()=>S.opened>=100],
- ["collector","📚","Коллекционер","Собери 50 уникальных",()=>S.unique.length>=50],
- ["legend","👑","Легенда","Найди легендарный номер",()=>S.unique.some(x=>x.rank>=4)],
- ["myth","🔴","Невозможное","Найди мифический номер",()=>S.unique.some(x=>x.rank>=5)],
- ["army","🪖","Военный коллекционер","Найди 10 военных",()=>S.unique.filter(x=>x.type=="military").length>=10],
- ["dip","🌐","Дипломат","Найди 5 дипломатических",()=>S.unique.filter(x=>x.type=="diplomatic").length>=5],
- ["police","🚔","Патрульный","Найди 20 полицейских",()=>S.unique.filter(x=>x.type=="police").length>=20],
- ["taxi","🚕","Таксист","Найди 20 такси",()=>S.unique.filter(x=>x.type=="taxi").length>=20]
-];
-function renderAchievements(){$("achievementList").innerHTML=ACH.map(a=>`<div class="mini ${a[4]?"done":""}" style="margin-bottom:8px"><h3>${a[4]?"🏆":"🔒"} ${a[1]} ${a[2]}</h3><p>${a[3]}</p></div>`).join("")}
-document.querySelectorAll(".choice").forEach(b=>b.onclick=()=>{amount=+b.dataset.n;document.querySelectorAll(".choice").forEach(x=>x.classList.remove("active"));b.classList.add("active")});
-document.querySelectorAll(".tab").forEach(b=>b.onclick=()=>{currentView=b.dataset.view;document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));$(currentView).classList.add("active");render()});
-$("open").onclick=()=>{
- recharge();if(S.energy<amount){alert("Недостаточно ⚡");return}
- S.energy-=amount;S.opened+=amount;S.quests.open+=amount;let items=Array.from({length:amount},make);
- items.forEach(x=>{if(x.type!="civil")S.quests.special++;if(x.rank>=4)S.quests.legend++;if(!S.unique.some(u=>u.text===x.text&&u.type===x.type))S.unique.unshift(x)});
- S.unique=S.unique.slice(0,500);S.history.unshift(...items);S.history=S.history.slice(0,100);save();render();fx(items)
-};
-$("garageFilter").oninput=render;
-setInterval(()=>{recharge();render()},5000);render();
+function removeGarage(id){S.garage=S.garage.filter(x=>x.id!==id);save();openSheet("garage")}
+function buyEnergy(){if(S.money<2500)return alert("Не хватает денег");S.money-=2500;S.energy+=25;save();update();openSheet("shop")}
+function buyLuck(){if(S.money<15000)return alert("Не хватает денег");S.money-=15000;S.luck=Math.min(3,S.luck+.1);save();update();openSheet("shop")}
+document.querySelectorAll(".nav").forEach(n=>n.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));n.classList.add("active");let k=n.dataset.sheet;if(k=="game"){ $("sheet").classList.remove("open");return}openSheet(k)});
+$("close").onclick=()=>$("sheet").classList.remove("open");$("settings").onclick=()=>alert("Настройки: прогресс сохраняется автоматически в браузере.");
+setInterval(()=>{recharge();update()},5000);update();
 </script>
 </body>
 </html>
