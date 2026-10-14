@@ -3,78 +3,35 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#090b12">
-<title>Nomer — охота за номерами</title>
+<meta name="theme-color" content="#080a10">
+<title>Nomer — Охота за номерами</title>
 <style>
 :root{--bg:#080a10;--panel:#11141d;--panel2:#181c27;--line:#292f3d;--text:#f5f7fb;--muted:#8e96a8;--violet:#735cff;--green:#45e29b;--gold:#ffd15a;--red:#ff5577}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
-button{font:inherit;color:inherit;border:0}body{padding-bottom:env(safe-area-inset-bottom)}
-.app{min-height:100vh;max-width:520px;margin:auto;padding:calc(14px + env(safe-area-inset-top)) 14px calc(94px + env(safe-area-inset-bottom));background:radial-gradient(circle at 50% -10%,#252047 0,#0c0e16 38%,#080a10 72%)}
-.header{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:900;letter-spacing:-.7px}.gear{width:38px;height:38px;border-radius:13px;background:#171b25;border:1px solid var(--line);font-size:18px}
-.topstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}.stat{background:rgba(18,21,30,.92);border:1px solid var(--line);border-radius:16px;padding:10px 12px}.stat b{font-size:17px}.stat span{font-size:10px;color:var(--muted);display:block;margin-top:2px}
-.luck{margin-top:9px;background:#151924;border:1px solid var(--line);border-radius:13px;padding:9px 12px;display:flex;justify-content:space-between;align-items:center}.luck strong{color:#69e8aa}.luck small{color:var(--muted)}
-.card{margin-top:12px;background:linear-gradient(145deg,#151925,#10131c);border:1px solid #303646;border-radius:24px;padding:14px;box-shadow:0 20px 60px #0006}.cardhead{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}
-.plate-stage{min-height:245px;display:grid;place-items:center;position:relative;overflow:hidden}.plate-stage:before{content:"";position:absolute;width:230px;height:130px;border-radius:50%;background:#7057ff33;filter:blur(35px)}
-.plate-wrap{position:relative;width:100%;max-width:360px}.ru-flag{display:inline-flex;flex-direction:column;width:18px;height:12px;overflow:hidden;border-radius:1px;vertical-align:middle;margin-left:6px;box-shadow:0 0 0 1px rgba(0,0,0,.22)}.ru-flag i{display:block;flex:1}.ru-flag .w{background:#fff}.ru-flag .b{background:#2455a4}.ru-flag .r{background:#d52b1e}.plate{background:linear-gradient(#fafafa,#dfe3e7);color:#101319;border-radius:9px;border:3px solid #1b1e25;box-shadow:0 14px 35px #0008,0 0 0 1px #777;display:flex;align-items:center;justify-content:center;min-height:94px;font-size:37px;font-weight:1000;letter-spacing:2px;position:relative;transform:perspective(500px) rotateX(3deg)}
-.plate:after{content:"RUS";position:absolute;right:7px;bottom:3px;font-size:8px;font-weight:800;color:#222}.plate .region{font-size:24px;margin-left:5px}.plate.mini{min-height:72px;font-size:26px}
-.rarity{text-align:center;margin-top:11px;font-weight:900;font-size:19px}.subline{text-align:center;color:var(--muted);font-size:11px;margin-top:3px}.value{text-align:center;color:var(--gold);font-size:21px;font-weight:950;margin-top:8px}
-.bonus{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:10px 0}.tag{padding:6px 8px;border-radius:9px;background:#242938;border:1px solid #343c4e;font-size:10px;color:#dce2ee}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05060a;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0;cursor:pointer}body{padding-bottom:env(safe-area-inset-bottom)}
+.app{min-height:100vh;max-width:520px;margin:auto;padding:calc(12px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom));background:radial-gradient(circle at 50% -8%,#29214b 0,#0d1019 35%,#080a10 75%)}
+.header{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:950}.gear{width:39px;height:39px;border-radius:14px;background:#171b25;border:1px solid var(--line);font-size:18px}
+.topstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.stat{background:#12151ee8;border:1px solid var(--line);border-radius:16px;padding:10px 12px}.stat b{font-size:17px}.stat span{font-size:10px;color:var(--muted);display:block;margin-top:2px}
+.luck{margin-top:8px;background:#151924;border:1px solid var(--line);border-radius:13px;padding:9px 12px;display:flex;justify-content:space-between}.luck strong{color:#69e8aa}.luck small{color:var(--muted)}
+.spin-options{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:9px}.spin-opt{padding:10px;border-radius:12px;background:#1a1f2b;border:1px solid #303748;font-weight:900}.spin-opt.active{background:linear-gradient(135deg,#4f3ab7,#8c43d8);border-color:#9b7cff;box-shadow:0 0 18px #7857ff33}.spin-opt:disabled{opacity:.4}
+.card{margin-top:11px;background:linear-gradient(145deg,#151925,#10131c);border:1px solid #303646;border-radius:24px;padding:14px;box-shadow:0 20px 60px #0008}.cardhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.plate-stage{min-height:250px;display:grid;place-items:center;position:relative;overflow:hidden}.plate-stage:before{content:"";position:absolute;width:250px;height:140px;border-radius:50%;background:#7057ff33;filter:blur(38px)}
+.plate-wrap{position:relative;width:100%;max-width:380px}.ru-flag{display:inline-flex;flex-direction:column;width:19px;height:12px;overflow:hidden;border-radius:1px;vertical-align:middle;margin-left:6px;box-shadow:0 0 0 1px #0004}.ru-flag i{display:block;flex:1}.ru-flag .w{background:#fff}.ru-flag .b{background:#2455a4}.ru-flag .r{background:#d52b1e}
+.plate{background:linear-gradient(#fafafa,#dfe3e7);color:#101319;border-radius:9px;border:3px solid #1b1e25;box-shadow:0 14px 35px #0008,0 0 0 1px #777;display:flex;align-items:center;justify-content:center;min-height:94px;font-size:36px;font-weight:1000;letter-spacing:2px;position:relative;transform:perspective(500px) rotateX(3deg);padding:0 10px}.plate:after{content:"RUS";position:absolute;right:7px;bottom:3px;font-size:8px;font-weight:800;color:currentColor}.plate.mini{min-height:72px;font-size:25px}.plate.civil{background:linear-gradient(#fbfbfb,#dfe3e8);color:#111}.plate.taxi{background:linear-gradient(#fff38a,#e8c72f);color:#111}.plate.military{background:linear-gradient(#101216,#252a31);color:#fff;border-color:#626a74}.plate.diplomatic{background:linear-gradient(#fff,#e9edf2);color:#18204c;border-color:#b9c4e8}.plate.police{background:linear-gradient(#164a9b,#0b2d68);color:#fff;border-color:#5d8fd9}
+.rarity{text-align:center;margin-top:10px;font-weight:950;font-size:19px}.subline{text-align:center;color:var(--muted);font-size:11px;margin-top:3px}.value{text-align:center;color:var(--gold);font-size:21px;font-weight:950;margin-top:7px}.bonus{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:9px 0}.tag{padding:6px 8px;border-radius:9px;background:#242938;border:1px solid #343c4e;font-size:10px;color:#dce2ee}
 .actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px}.btn{padding:14px;border-radius:14px;background:#202532;border:1px solid #32394b;font-weight:850}.spin{background:linear-gradient(135deg,#7256ff,#a448ff);box-shadow:0 9px 28px #764cff3d}.btn:disabled{opacity:.45}
 .next{margin-top:9px;text-align:center;color:var(--muted);font-size:10px}.progress{height:6px;background:#252b38;border-radius:8px;overflow:hidden;margin-top:6px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#6f57ff,#d15cff)}
 .bottom{position:fixed;z-index:30;left:50%;bottom:0;transform:translateX(-50%);width:min(520px,100%);padding:8px 10px calc(8px + env(safe-area-inset-bottom));background:#0b0d13ed;border-top:1px solid #242a38;backdrop-filter:blur(16px);display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.nav{background:transparent;color:#81899b;font-size:9px;padding:6px 2px;border-radius:10px}.nav.active{color:#fff;background:#1b2030}.nav div{font-size:18px;margin-bottom:2px}
-.sheet{position:fixed;inset:0;z-index:40;background:#080a10f2;display:none;padding:18px 14px;overflow:auto}.sheet.open{display:block}.sheetin{max-width:520px;margin:auto}.sheettop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.close{background:#202532;border-radius:10px;padding:8px 11px}.list{background:#11141d;border:1px solid var(--line);border-radius:18px;padding:4px 12px}.row{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #252b37}.row:last-child{border-bottom:0}.row b{font-size:14px}.row small{display:block;color:var(--muted);margin-top:3px}.row button{background:#242a38;border-radius:9px;padding:7px 8px;font-size:10px}
-.empty{text-align:center;color:var(--muted);padding:30px 10px}
-.fx{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:#0009;pointer-events:none}.fx.on{display:grid}.fxbox{text-align:center;animation:pop .7s}.fxicon{font-size:65px}.fxtitle{font-size:31px;font-weight:1000}.fxsub{font-size:12px;font-weight:800}.spark{position:absolute;width:7px;height:7px;border-radius:50%;background:#fff;animation:fly 1.2s forwards}
-@keyframes pop{0%{transform:scale(.25);opacity:0}50%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}@keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(600deg);opacity:0}}
-.spinning{animation:shake .13s infinite}@keyframes shake{50%{transform:perspective(500px) rotateX(3deg) translateX(2px)}}
-.gold{color:#ffd15a;text-shadow:0 0 18px #ffd15a66}.red{color:#ff657f;text-shadow:0 0 18px #ff557766}.violet{color:#bf9bff;text-shadow:0 0 18px #9a70ff66}
-@media(min-width:700px){.app{min-height:100vh}.bottom{position:fixed}}
-
-.spin-options{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-top:10px}
-.spin-opt{padding:10px;border-radius:12px;background:#1a1f2b;border:1px solid #303748;font-weight:900}
-.spin-opt.active{background:linear-gradient(135deg,#4f3ab7,#8c43d8);border-color:#9b7cff;box-shadow:0 0 18px #7857ff33}
-.spin-opt:disabled{opacity:.4}
-.reel-track{position:absolute;inset:20px 0;display:none;align-items:center;gap:12px;overflow:hidden;padding:0 12px}
-.reel-track.on{display:flex}
-.reel-card{min-width:250px}
-.reel-card .plate{min-height:72px;font-size:25px}
-.rare-glow{animation:rareGlow 1s ease-in-out infinite alternate}
-.epic-glow{animation:epicGlow .75s ease-in-out infinite alternate}
-.legend-glow{animation:legendGlow .6s ease-in-out infinite alternate}
-.mythic-glow{animation:mythicGlow .45s ease-in-out infinite alternate}
-@keyframes rareGlow{from{box-shadow:0 0 8px #3d8dff55}to{box-shadow:0 0 32px #3d8dffcc}}
-@keyframes epicGlow{from{box-shadow:0 0 10px #9b55ff66}to{box-shadow:0 0 45px #c27cff}}
-@keyframes legendGlow{from{box-shadow:0 0 12px #ffc13d66}to{box-shadow:0 0 55px #ffd35c}}
-@keyframes mythicGlow{from{box-shadow:0 0 15px #ff3e6d66}to{box-shadow:0 0 70px #ff5577}}
-
-/* WOW EFFECTS */
-body.wow-shake{animation:screenShake .42s ease}
-@keyframes screenShake{0%,100%{transform:translate(0)}15%{transform:translate(-5px,3px)}30%{transform:translate(5px,-3px)}45%{transform:translate(-4px,-2px)}60%{transform:translate(4px,2px)}75%{transform:translate(-2px,1px)}}
-.fx.on{background:radial-gradient(circle at 50% 45%,#ffffff18 0,#8a5cff12 20%,#05060bdb 72%);backdrop-filter:blur(4px)}
-.fxbox.wow{position:relative;z-index:4;min-width:min(88vw,520px);padding:30px 22px;border:1px solid #ffffff55;border-radius:28px;background:linear-gradient(145deg,#111525ee,#26134eee 55%,#101321ee);box-shadow:0 0 25px #8b5cffaa,0 0 90px #9d43ff55,inset 0 0 30px #ffffff0c;animation:popWOW .72s cubic-bezier(.17,.89,.32,1.4)}
-.fxbox.wow.gold{box-shadow:0 0 35px #ffd45cdd,0 0 120px #ff9f2f88,inset 0 0 35px #fff3a522}
-.fxbox.wow.red{box-shadow:0 0 35px #ff4777dd,0 0 130px #ff174c88,inset 0 0 35px #ff789422}
-.fxbox.wow.violet{box-shadow:0 0 30px #9c65ffdd,0 0 110px #7b39ff77,inset 0 0 30px #c59cff18}
-.fxicon{font-size:52px;filter:drop-shadow(0 0 18px currentColor);animation:iconPulse .7s ease-in-out infinite alternate}
-.fxtitle{margin-top:7px;font-size:30px;font-weight:1000;letter-spacing:2px;text-shadow:0 0 22px currentColor}
-.fxsub{margin-top:10px;font-size:16px;color:#e6e9f4;font-weight:800}
-.fxrarity{margin-top:5px;font-size:13px;color:#9fa8bd}
-.spark{position:absolute;width:6px;height:18px;border-radius:99px;background:#fff;box-shadow:0 0 12px #fff;animation:burst 1.35s cubic-bezier(.1,.8,.2,1) forwards;transform:translate(-50%,-50%) rotate(var(--rot));}
-@keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(var(--rot))}12%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.1) rotate(calc(var(--rot) + 260deg))}}
-@keyframes popWOW{0%{transform:scale(.25) rotate(-5deg);opacity:0}55%{transform:scale(1.08) rotate(1deg);opacity:1}100%{transform:scale(1) rotate(0)}}
-@keyframes iconPulse{from{transform:scale(.92) rotate(-4deg)}to{transform:scale(1.14) rotate(4deg)}}
-.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:3}
-.flash.go{animation:flash .34s ease}
-@keyframes flash{0%{opacity:0}12%{opacity:.85}100%{opacity:0}}
-.gold-ring{position:absolute;width:230px;height:230px;border:3px solid #ffd45c;border-radius:50%;box-shadow:0 0 30px #ffd45c, inset 0 0 30px #ffd45c;animation:ring 1.5s ease-out forwards;opacity:0}
-@keyframes ring{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.5);opacity:0}}
-
-.plate.civil{background:linear-gradient(#fbfbfb,#dfe3e8);color:#111}
-.plate.taxi{background:linear-gradient(#fff38a,#e8c72f);color:#111}
-.plate.military{background:linear-gradient(#101216,#252a31);color:#fff;border-color:#626a74}
-.plate.diplomatic{background:linear-gradient(#fff,#e9edf2);color:#18204c;border-color:#b9c4e8}
-.plate.police{background:linear-gradient(#164a9b,#0b2d68);color:#fff;border-color:#5d8fd9}
-.plate.civil,.plate.taxi,.plate.military,.plate.diplomatic,.plate.police{transition:.25s}
+.sheet{position:fixed;inset:0;z-index:40;background:#080a10f4;display:none;padding:18px 14px calc(100px + env(safe-area-inset-bottom));overflow:auto}.sheet.open{display:block}.sheetin{max-width:520px;margin:auto}.sheettop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.close{background:#202532;border-radius:10px;padding:8px 11px}.list{background:#11141d;border:1px solid var(--line);border-radius:18px;padding:4px 12px}.row{display:flex;justify-content:space-between;gap:10px;padding:13px 0;border-bottom:1px solid #252b37}.row:last-child{border-bottom:0}.row b{font-size:14px}.row small{display:block;color:var(--muted);margin-top:3px}.row button{background:#242a38;border-radius:9px;padding:7px 8px;font-size:10px}.empty{text-align:center;color:var(--muted);padding:30px 10px}
+.section-title{font-size:11px;letter-spacing:2px;color:#858da0;margin:22px 0 9px}.info{color:#9299a9;line-height:1.55;font-size:13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.mini{background:#11141d;border:1px solid var(--line);border-radius:16px;padding:13px}.mini b{font-size:13px}.mini p{color:var(--muted);font-size:11px}.mini .btn{width:100%;padding:10px;font-size:11px}
+.badge{display:inline-block;padding:5px 7px;border-radius:8px;background:#202635;color:#cbd2e2;font-size:10px;margin:3px}.goldtxt{color:#ffd15a}.violettxt{color:#b88cff}.redtxt{color:#ff6680}.bluetxt{color:#65a9ff}.greentxt{color:#67e6a2}
+.reel-track{position:absolute;inset:15px 0;display:none;align-items:center;gap:12px;overflow:hidden;padding:0 12px;z-index:4}.reel-track.on{display:flex}.reel-card{min-width:250px}.reel-card .plate{min-height:72px;font-size:24px}
+.rare-glow{animation:rareGlow 1s ease-in-out infinite alternate}.epic-glow{animation:epicGlow .75s ease-in-out infinite alternate}.legend-glow{animation:legendGlow .6s ease-in-out infinite alternate}.mythic-glow{animation:mythicGlow .45s ease-in-out infinite alternate}
+@keyframes rareGlow{from{box-shadow:0 0 8px #3d8dff55}to{box-shadow:0 0 32px #3d8dffcc}}@keyframes epicGlow{from{box-shadow:0 0 10px #9b55ff66}to{box-shadow:0 0 45px #c27cff}}@keyframes legendGlow{from{box-shadow:0 0 12px #ffc13d66}to{box-shadow:0 0 55px #ffd35c}}@keyframes mythicGlow{from{box-shadow:0 0 15px #ff3e6d66}to{box-shadow:0 0 70px #ff5577}}
+body.wow-shake{animation:screenShake .42s ease}@keyframes screenShake{0%,100%{transform:translate(0)}15%{transform:translate(-5px,3px)}30%{transform:translate(5px,-3px)}45%{transform:translate(-4px,-2px)}60%{transform:translate(4px,2px)}75%{transform:translate(-2px,1px)}}
+.fx{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:radial-gradient(circle at 50% 45%,#ffffff18 0,#8a5cff12 20%,#05060bdb 72%);pointer-events:none}.fx.on{display:grid}.fxbox{position:relative;z-index:4;min-width:min(88vw,520px);padding:30px 22px;text-align:center;border:1px solid #fff5;border-radius:28px;background:linear-gradient(145deg,#111525ee,#26134eee 55%,#101321ee);box-shadow:0 0 25px #8b5cffaa,0 0 90px #9d43ff55;animation:pop .72s cubic-bezier(.17,.89,.32,1.4)}.fxbox.gold{box-shadow:0 0 35px #ffd45cdd,0 0 120px #ff9f2f88}.fxbox.red{box-shadow:0 0 35px #ff4777dd,0 0 130px #ff174c88}.fxbox.violet{box-shadow:0 0 30px #9c65ffdd,0 0 110px #7b39ff77}.fxicon{font-size:52px;animation:iconPulse .7s ease-in-out infinite alternate}.fxtitle{margin-top:7px;font-size:30px;font-weight:1000;letter-spacing:2px}.fxsub{margin-top:10px;font-size:16px;font-weight:850}.fxrarity{margin-top:5px;font-size:13px;color:#9fa8bd}.spark{position:absolute;width:6px;height:18px;border-radius:99px;background:#fff;box-shadow:0 0 12px #fff;animation:burst 1.35s cubic-bezier(.1,.8,.2,1) forwards}.flash{position:absolute;inset:0;background:#fff;opacity:0}.flash.go{animation:flash .34s ease}.ring{position:absolute;width:230px;height:230px;border:3px solid #ffd45c;border-radius:50%;box-shadow:0 0 30px #ffd45c;animation:ring 1.5s ease-out forwards;opacity:0}
+@keyframes pop{0%{transform:scale(.25) rotate(-5deg);opacity:0}55%{transform:scale(1.08) rotate(1deg);opacity:1}100%{transform:scale(1)}}@keyframes iconPulse{from{transform:scale(.92) rotate(-4deg)}to{transform:scale(1.14) rotate(4deg)}}@keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(var(--rot))}12%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.1) rotate(calc(var(--rot) + 260deg))}}@keyframes flash{0%{opacity:0}12%{opacity:.85}100%{opacity:0}}@keyframes ring{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.5);opacity:0}}
+.dice{margin-top:8px;width:100%;background:#141824;border:1px solid #2d3444;border-radius:13px;padding:10px;font-size:11px;color:#c8cfdd}.danger{color:#ff6b7f}.success{color:#69e8aa}
 </style>
 </head>
 <body>
@@ -86,204 +43,180 @@ body.wow-shake{animation:screenShake .42s ease}
 <div class="stat"><b>₽ <span id="money">10 000</span></b><span>баланс</span></div>
 </section>
 <div class="luck"><div>🍀 Удача <strong id="luck">x1.00</strong></div><small>Уровень <b id="level">1</b> · <span id="opened">0</span> открытий</small></div>
-<div class="spin-options">
-<button class="spin-opt active" data-count="1">1</button>
-<button class="spin-opt" data-count="3">3</button>
-<button class="spin-opt" data-count="5">5</button>
-<button class="spin-opt" data-count="10">10</button>
-</div>
+<div class="spin-options"><button class="spin-opt active" data-count="1">1 ⚡</button><button class="spin-opt" data-count="3">3 ⚡</button><button class="spin-opt" data-count="5">5 ⚡</button><button class="spin-opt" data-count="10">10 ⚡</button></div>
 
 <section class="card">
 <div class="cardhead"><span>ПОСЛЕДНИЙ НОМЕР</span><span id="type">🚗 Гражданский</span></div>
-<div class="plate-stage" id="plateStage"><div class="reel-track" id="reelTrack"></div><div class="plate-wrap" id="plateWrap"><div class="plate" id="plate">А 777 АА <span class="region">07</span></div></div></div>
-<div class="rarity" id="rarity">Готов к охоте</div>
-<div class="subline" id="subline">Нажми «Крутить», чтобы найти номер</div>
-<div class="value" id="value">—</div>
-<div class="bonus" id="bonus"></div>
+<div class="plate-stage"><div class="reel-track" id="reelTrack"></div><div class="plate-wrap" id="plateWrap"><div class="plate" id="plate">А 777 АА 07 <span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span></div></div></div>
+<div class="rarity" id="rarity">Готов к охоте</div><div class="subline" id="subline">Нажми «Крутить», чтобы найти номер</div><div class="value" id="value">—</div><div class="bonus" id="bonus"></div>
 <div class="actions"><button class="btn" id="garageBtn">⭐ В гараж</button><button class="btn spin" id="spin">⚡ Крутить</button></div>
 <div class="next">Следующий уровень: <span id="nextText">100</span><div class="progress"><i id="levelBar"></i></div></div>
 </section>
+<button class="dice" id="dice">🎲 Кости — когда ⚡ закончились: бросок раз в 15 минут, >5 даёт +10 ⚡</button>
 </div>
 
-<nav class="bottom">
-<button class="nav active" data-sheet="game"><div>🎰</div>Игра</button>
-<button class="nav" data-sheet="garage"><div>🚘</div>Гараж</button>
-<button class="nav" data-sheet="shop"><div>🛒</div>Магазин</button>
-<button class="nav" data-sheet="top"><div>🏆</div>Топ</button>
-<button class="nav" data-sheet="collection"><div>📚</div>Коллекция</button>
-</nav>
-
+<nav class="bottom"><button class="nav active" data-sheet="game"><div>🎰</div>Игра</button><button class="nav" data-sheet="garage"><div>🚘</div>Гараж</button><button class="nav" data-sheet="shop"><div>🛒</div>Магазин</button><button class="nav" data-sheet="top"><div>🏆</div>Топ</button><button class="nav" data-sheet="collection"><div>📚</div>Коллекция</button></nav>
 <div class="sheet" id="sheet"><div class="sheetin"><div class="sheettop"><h2 id="sheetTitle">Гараж</h2><button class="close" id="close">Закрыть</button></div><div id="sheetBody"></div></div></div>
 <div class="fx" id="fx"></div>
 
 <script>
 const LETTERS="АВЕКМНОРСТУХ";
-const R=[["Обычный","⚪",500],["Необычный","🟢",3000],["Редкий","🔵",12000],["Эпический","🟣",60000],["Легендарный","🟠",300000],["Мифический","🔴",2500000]];
+const R=[
+ ["Обычный","⚪",2000],["Необычный","🔵",8000],["Редкий","🔷",30000],
+ ["Эпический","🟣",150000],["Легендарный","🩷",1000000],["Мифический","🔴",8000000],["Секретный","🟡",30000000]
+];
 const T=[["civil","Гражданский","🚗",1],["military","Военный","🪖",5],["diplomatic","Дипломатический","🌐",12],["police","Полицейский","🚔",7],["taxi","Такси","🚕",3]];
 const REG=["01","02","05","06","07","08","09","10","12","13","15","16","18","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","83","86","87","89","90","91","92","93","94","95","96","97","98","99"];
-const TH=[0,100,500,1500,4000,10000];
-let S=JSON.parse(localStorage.getItem("nomer_mobile_v1")||"null")||{energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],luck:1};
-let current=null,currentBatch=[],spinning=false,spinCount=1;
+const TH=[0,100,500,1500,4000,10000,20000,35000,55000,80000,120000];
+const PRICE_MULT={"777":150,"001":400};
+const BLAT=[
+["ЕХХ","Едет как хочет",60],["АМР","",50],["КХХ","Катаюсь как хочу",40],["АОО","",40],["МОО","",35],["ООО","Три Ольги",30],["ААА","",30],["АМО","",30],["СОО","",30],["МММ","",25],["ССС","",25],["ТОО","",25],["РМР","",25],["ТМР","",25],["ВОО","",20],["АММ","",20],["МКМ","",20],["ЕАХ","",20],["ВМР","",20],["ОМР","",20],["МРР","",18],["УУУ","",18],["ХХХ","",18],["ХКХ","",15],["ВММ","",15],["КММ","",15],["КМР","",15],["РМР","",15],["УМР","",12],["СММ","",12],["АКР","",12],["ВКР","",12],["ККР","",12],["МОО","",10],["МММ","",10],["ЕЕР","",8],["ЕРЕ","Единая Россия едет",6]
+];
+const WORDS=["ВОР","ХАМ","ВАХ","НАХ","ХЕР","КОТ","СОС","КУМ","МУР","СРУ","РАК","МАК","СОК","НОС","СОН","ХАН","ВЕК","РОК","ТОК","МОХ","ЗОО","ТАК","СКЗ","САМ","ТЭК","ВКС","ВАК","МОР","РОМ","КУР","ТРУ","МАТ","РОТ","ВОН","УКА"];
 const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString("ru-RU");
-function save(){localStorage.setItem("nomer_mobile_v1",JSON.stringify(S))}
+const defaultState={energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],luck:1,firstSpin:true,reroll:0,lastDice:0,tasks:{day:0,week:0,dayStamp:"",weekStamp:""},ach:[],talismans:{rare:false,epic:false,legend:false,mythic:false},garageBonus:0,contracts:0};
+let S=JSON.parse(localStorage.getItem("nomer_full_v1")||"null")||defaultState;
+let current=null,currentBatch=[],spinning=false,spinCount=1;
+
+function save(){localStorage.setItem("nomer_full_v1",JSON.stringify(S))}
 function recharge(){let now=Date.now(),g=Math.floor((now-S.stamp)/90000);if(g>0){S.energy+=g;S.stamp+=g*90000;save()}}
 function lvl(){let x=0;for(let i=0;i<TH.length;i++)if(S.opened>=TH[i])x=i;return x}
-function rarity(min){let w=[62,20,9,5,3,1],x=Math.random()*w.slice(min).reduce((a,b)=>a+b,0);for(let i=min;i<6;i++){x-=w[i];if(x<=0)return i}return 5}
-function type(){let x=Math.random(),b=1+lvl()*.12;if(x<.0035*b)return T[1];if(x<.005*b)return T[2];if(x<.01*b)return T[3];if(x<.018*b)return T[4];return T[0]}
-function make(){
- let ri=rarity(lvl()),t=type(),region=REG[Math.floor(Math.random()*REG.length)];
- let n=Math.floor(Math.random()*1000).toString().padStart(3,"0");
- let n4=Math.floor(Math.random()*10000).toString().padStart(4,"0");
- let a=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let b=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let c=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let s1=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let s2=LETTERS[Math.floor(Math.random()*LETTERS.length)];
- let bonus=0,tags=[],text,plateClass=t[0];
-
- // Форматы максимально приближены к российским типам знаков:
- // гражданский/такси: А 123 ВВ 77
- // военный: 1234 АБ 77 (черный фон, справа код воинского формирования)
- // дипломатический: 123 D 001 77 / 123 CD 001 77
- // полиция: А 1234 77 (синий фон)
- if(t[0]==="military"){
-   text=`${n4} ${s1}${s2} ${region}`;
-   tags.push("военный формат");
- }else if(t[0]==="diplomatic"){
-   const series=Math.random()<0.28?"CD":(Math.random()<0.5?"D":"T");
-   const country=["001","004","010","088","151"][Math.floor(Math.random()*5)];
-   const car=Math.floor(Math.random()*1000).toString().padStart(3,"0");
-   text=`${country} ${series} ${car} ${region}`;
-   tags.push("дипломатический формат");
- }else if(t[0]==="police"){
-   const letter=["А","В","Е","К","М","Н","О","Р","С","Т","У","Х"][Math.floor(Math.random()*12)];
-   const num4=Math.floor(Math.random()*10000).toString().padStart(4,"0");
-   text=`${letter} ${num4} ${region}`;
-   tags.push("полицейский формат");
- }else{
-   text=`${a} ${n} ${b}${c} ${region}`;
-   if(t[0]==="taxi") tags.push("такси · тип 1Б");
- }
-
- // Комбинационные бонусы только для гражданских/такси.
- if(t[0]==="civil"||t[0]==="taxi"){
-   if(n[0]===n[1]&&n[1]===n[2]){bonus+=2;tags.push("три одинаковые ×3")}
-   else if(n[0]===n[2]){bonus++;tags.push("зеркальные цифры ×1.5")}
-   if(a===b&&b===c){bonus+=2;tags.push("три буквы ×3")}
-   if(["001","007","111","222","333","444","555","666","777","888","999"].includes(n)){bonus+=2;tags.push("особая комбинация ×3")}
- }
- let price=Math.round(R[ri][2]*(.75+Math.random()*.7)*(1+bonus*.35)*t[3]/10)*10;
- return{id:Date.now()+"_"+Math.random().toString(36).slice(2),text,region,rank:ri,rarity:R[ri][0],type:t[0],typeName:t[1],icon:t[2],price,tags,plateClass}
+function luckMultiplier(rank){let m=S.luck;if(rank>=2&&S.talismans.rare)m*=1.15;if(rank>=3&&S.talismans.epic)m*=1.35;if(rank>=4&&S.talismans.legend)m*=2;if(rank>=5&&S.talismans.mythic)m*=2.5;return m}
+function rarity(){
+ if(S.firstSpin)return 0;
+ let w=[68.5,25.5,4.9,.975,.019,.001,.0005];
+ let lm=Math.max(.5,Math.min(3,S.luck));
+ for(let i=2;i<7;i++)w[i]*=lm;
+ let total=w.reduce((a,b)=>a+b,0),x=Math.random()*total;
+ for(let i=0;i<w.length;i++){x-=w[i];if(x<=0)return i}
+ return 0;
 }
-function plateText(x){return x.text}
-function update(){
- recharge();let l=lvl(),next=TH[l+1]||TH[l],prev=TH[l],pct=l==5?100:Math.min(100,(S.opened-prev)/(next-prev)*100);
- $("energy").textContent=fmt(S.energy);$("money").textContent=fmt(S.money);$("level").textContent=l+1;$("opened").textContent=S.opened;$("luck").textContent="x"+S.luck.toFixed(2);$("levelBar").style.width=pct+"%";$("nextText").textContent=l==5?"MAX":next;
- if(current){
-   $("plate").innerHTML=plateText(current);
-   $("plate").className="plate "+current.plateClass+" "+(current.rank>=5?"mythic-glow":current.rank>=4?"legend-glow":current.rank>=3?"epic-glow":current.rank>=2?"rare-glow":"");
-   $("type").textContent=current.icon+" "+current.typeName;
-   $("rarity").textContent=R[current.rank][1]+" "+current.rarity;
-   $("subline").textContent=currentBatch.length>1?`Выпало номеров: ${currentBatch.length} · регион ${current.region}`:`Регион ${current.region}`;
-   $("value").textContent="₽ "+fmt(current.price);
-   $("bonus").innerHTML=current.tags.map(t=>`<span class="tag">${t}</span>`).join("");
-   $("garageBtn").textContent=S.garage.some(x=>x.id===current.id)?"⭐ В гараже":"⭐ В гараж";
+function type(){let x=Math.random(),b=1+lvl()*.12;if(x<.0035*b)return T[1];if(x<.005*b)return T[2];if(x<.01*b)return T[3];if(x<.018*b)return T[4];return T[0]}
+function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function make(){
+ let ri=rarity(),t=type(),region=rand(REG),n=Math.floor(Math.random()*1000).toString().padStart(3,"0");
+ let n4=Math.floor(Math.random()*10000).toString().padStart(4,"0"),a=rand(LETTERS),b=rand(LETTERS),c=rand(LETTERS),s1=rand(LETTERS),s2=rand(LETTERS);
+ let bonus=1,tags=[],text,plateClass=t[0];
+ if(t[0]=="military"){text=`${n4} ${s1}${s2} ${region}`;tags.push("военный формат")}
+ else if(t[0]=="diplomatic"){let series=Math.random()<.28?"CD":Math.random()<.5?"D":"T",country=rand(["001","004","010","088","151"]),car=Math.floor(Math.random()*1000).toString().padStart(3,"0");text=`${country} ${series} ${car} ${region}`;tags.push("дипломатический формат")}
+ else if(t[0]=="police"){text=`${rand(LETTERS)} ${Math.floor(Math.random()*10000).toString().padStart(4,"0")} ${region}`;tags.push("полицейский формат")}
+ else{text=`${a} ${n} ${b}${c} ${region}`;if(t[0]=="taxi")tags.push("такси · жёлтый знак")}
+ if(t[0]=="civil"||t[0]=="taxi"){
+   if(n=="777"){bonus*=150;tags.push("777 ×150")}
+   if(n=="001"){bonus*=400;tags.push("001 ×400")}
+   if(/^(\d)\1\1$/.test(n)){bonus*=60;tags.push("три одинаковые цифры ×60")}
+   if(n[0]==n[2]&&n[0]!=n[1]){bonus*=1.5;tags.push("зеркало ×1.5")}
+   if(a==b&&b==c){bonus*=12;tags.push("три одинаковые буквы ×12")}
+   if(a==b||b==c||a==c){bonus*=1.3;tags.push("две одинаковые буквы ×1.3")}
+   if(BLAT.some(x=>x[0]==b+c)){let x=BLAT.find(x=>x[0]==b+c);bonus*=x[2];tags.push(x[0]+" ×"+x[2])}
+   if(region=="77"||region=="78"||["07","15","20","21","26","95"].includes(region)){bonus*=2.5;tags.push("Москва/Питер/Кавказ ×2–3")}
+   if(region.split("").every(ch=>ch==n[0])){bonus*=3;tags.push("цифры в цвет региона ×3")}
+   if(n=="000"&&b==c){bonus*=1.6;tags.push("дубль к дублю ×1.6")}
+   if(WORDS.includes(b+c+a)){bonus*=3;tags.push("слово ×3")}
+   if(["010","011","012","013","014","015","016","017","018","019","020","021","022","023","024","025","026","027","028","029","030","031","032","033","034","035","036","037","038","039","040","041","042","043","044","045","046","047","048","049","050","051","052","053","054","055","056","057","058","059","060","061","062","063","064","065","066","067","068","069","070","071","072","073","074","075","076","077","078","079","080","081","082","083","084","085","086","087","088","089","090","091","092","093","094","095","096","097","098","099"].includes(n)){bonus*=4;tags.push("первая сотня 010–099 ×4")}
  }
+ if(ri>=2)tags.push("редкий уровень");
+ if(S.firstSpin){ri=0;tags.push("стартовый номер 70–100 тыс. ₽");}
+ let base;
+ if(S.firstSpin)base=85000;else base=R[ri][2]*(.8+Math.random()*.4)*bonus*t[3];
+ let price=Math.max(100,Math.round(base/10)*10);
+ if(S.firstSpin){price=70000+Math.floor(Math.random()*30001);S.firstSpin=false}
+ return{id:Date.now()+"_"+Math.random().toString(36).slice(2),text,region,rank:ri,rarity:R[ri][0],type:t[0],typeName:t[1],icon:t[2],price,tags,plateClass};
+}
+function plateHTML(x){return `${x.text} <span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span>`}
+function update(){
+ recharge();let l=lvl(),next=TH[l+1]||TH[l],prev=TH[l],pct=l>=TH.length-1?100:Math.min(100,(S.opened-prev)/(next-prev)*100);
+ $("energy").textContent=fmt(S.energy);$("money").textContent=fmt(S.money);$("level").textContent=l+1;$("opened").textContent=S.opened;$("luck").textContent="x"+S.luck.toFixed(2);$("levelBar").style.width=pct+"%";$("nextText").textContent=l>=TH.length-1?"MAX":fmt(next);
+ if(current){$("plate").innerHTML=plateHTML(current);$("plate").className="plate "+current.plateClass+" "+(current.rank>=5?"mythic-glow":current.rank>=4?"legend-glow":current.rank>=3?"epic-glow":current.rank>=2?"rare-glow":"");$("type").textContent=current.icon+" "+current.typeName;$("rarity").textContent=R[current.rank][1]+" "+current.rarity;$("subline").textContent=currentBatch.length>1?`Выпало номеров: ${currentBatch.length} · регион ${current.region}`:`Регион ${current.region}`;$("value").textContent="₽ "+fmt(current.price);$("bonus").innerHTML=current.tags.map(t=>`<span class="tag">${t}</span>`).join("");$("garageBtn").textContent=S.garage.some(x=>x.id===current.id)?"⭐ В гараже":"⭐ В гараж"}
  document.querySelectorAll(".spin-opt").forEach(b=>b.classList.toggle("active",+b.dataset.count===spinCount));
 }
 function effect(x){
-  if(x.rank<1 && x.type==="civil") return;
-  const f=$("fx");
-  const tier=x.rank>=5?"red":x.rank>=4?"gold":"violet";
-  const title=x.rank>=5?"МИФИЧЕСКИЙ НОМЕР":x.rank>=4?"ЛЕГЕНДАРНЫЙ НОМЕР":x.rank>=3?"ЭПИЧЕСКИЙ НОМЕР":x.rank>=2?"РЕДКИЙ НОМЕР":"ОСОБЫЙ НОМЕР";
-  f.innerHTML=`<div class="flash"></div><div class="gold-ring"></div>
-    <div class="fxbox wow ${tier}">
-      <div class="fxicon">${x.icon}</div>
-      <div class="fxtitle">${title}</div>
-      <div class="fxsub">${x.text} ${x.region}</div>
-      <div class="fxrarity">${x.typeName} · ${x.text} · ₽ ${fmt(x.price)}</div>
-    </div>`;
-  f.classList.add("on");
-  document.body.classList.add("wow-shake");
-  const flash=f.querySelector(".flash");
-  if(x.rank>=3){ setTimeout(()=>flash.classList.add("go"),40); }
-  for(let i=0;i<(x.rank>=4?95:65);i++){
-    const p=document.createElement("i");
-    p.className="spark";
-    p.style.left="50%"; p.style.top="50%";
-    p.style.setProperty("--x",(Math.random()*900-450)+"px");
-    p.style.setProperty("--y",(Math.random()*950-475)+"px");
-    p.style.setProperty("--rot",(Math.random()*360)+"deg");
-    f.appendChild(p);
-  }
-  if(x.rank>=4){
-    for(let i=0;i<12;i++){
-      const r=document.createElement("i");
-      r.className="gold-ring";
-      r.style.left="50%";r.style.top="50%";
-      r.style.animationDelay=(i*.06)+"s";
-      f.appendChild(r);
-    }
-  }
-  setTimeout(()=>{f.classList.remove("on");document.body.classList.remove("wow-shake")},3000);
+ if(x.rank<2)return;
+ const f=$("fx"),tier=x.rank>=5?"red":x.rank>=3?"violet":"gold",title=x.rank>=6?"СЕКРЕТНЫЙ НОМЕР":x.rank>=5?"МИФИЧЕСКИЙ НОМЕР":x.rank>=4?"ЛЕГЕНДАРНЫЙ НОМЕР":"ЭПИЧЕСКИЙ НОМЕР";
+ f.innerHTML=`<div class="flash"></div><div class="fxbox ${tier}"><div class="fxicon">${x.icon}</div><div class="fxtitle">${title}</div><div class="fxsub">${x.text}</div><div class="fxrarity">${x.typeName} · ₽ ${fmt(x.price)}</div></div>`;
+ f.classList.add("on");document.body.classList.add("wow-shake");
+ let fl=f.querySelector(".flash");if(x.rank>=3)setTimeout(()=>fl.classList.add("go"),40);
+ for(let i=0;i<(x.rank>=5?130:80);i++){let p=document.createElement("i");p.className="spark";p.style.left="50%";p.style.top="50%";p.style.setProperty("--x",(Math.random()*900-450)+"px");p.style.setProperty("--y",(Math.random()*950-475)+"px");p.style.setProperty("--rot",Math.random()*360+"deg");f.appendChild(p)}
+ if(x.rank>=4)for(let i=0;i<12;i++){let r=document.createElement("i");r.className="ring";r.style.left="50%";r.style.top="50%";r.style.animationDelay=i*.06+"s";f.appendChild(r)}
+ setTimeout(()=>{f.classList.remove("on");document.body.classList.remove("wow-shake")},3200);
 }
 function spin(){
- if(spinning)return;
- recharge();
- if(S.energy<spinCount){alert(`Нужно ${spinCount} ⚡`);return}
- spinning=true;S.energy-=spinCount;S.opened+=spinCount;
- currentBatch=Array.from({length:spinCount},make);
- const batch=currentBatch,track=$("reelTrack"),wrap=$("plateWrap");
- document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=true);
- $("spin").disabled=true;track.classList.add("on");wrap.style.opacity="0";
- let ticks=0,total=spinCount===1?20:28+spinCount*2;
- const interval=setInterval(()=>{
-   track.innerHTML="";
-   for(let i=0;i<Math.min(10,spinCount+5);i++){
-     let fake=make(),d=document.createElement("div");d.className="reel-card";d.innerHTML=`<div class="plate ${fake.plateClass}">${plateText(fake)}</div>`;track.appendChild(d);
-   }
-   ticks++;
-   if(ticks>=total){
-     clearInterval(interval);
-     setTimeout(()=>{
-       track.classList.remove("on");wrap.style.opacity="1";
-       current=batch.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];
-       batch.forEach(x=>{
-         S.history.unshift(x);
-         if(!S.unique.some(u=>u.text===x.text&&u.region===x.region&&u.type===x.type))S.unique.unshift(x);
-       });
-       S.history=S.history.slice(0,100);S.unique=S.unique.slice(0,500);
-       let best=current;
-       if(best.rank>=3)S.luck=Math.min(3,S.luck+.01);
-       save();update();
-       document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=false);
-       $("spin").disabled=false;spinning=false;
-       effect(best);
-     },900);
-   }
- },100);
+ if(spinning)return;recharge();if(S.energy<spinCount){alert(`Нужно ${spinCount} ⚡`);return}
+ spinning=true;S.energy-=spinCount;S.opened+=spinCount;currentBatch=Array.from({length:spinCount},make);
+ let batch=currentBatch,track=$("reelTrack"),wrap=$("plateWrap");document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=true);$("spin").disabled=true;track.classList.add("on");wrap.style.opacity="0";
+ let ticks=0,total=spinCount==1?20:28+spinCount*2;
+ let interval=setInterval(()=>{track.innerHTML="";for(let i=0;i<Math.min(10,spinCount+5);i++){let fake=make(),d=document.createElement("div");d.className="reel-card";d.innerHTML=`<div class="plate mini ${fake.plateClass}">${plateHTML(fake)}</div>`;track.appendChild(d)}ticks++;if(ticks>=total){clearInterval(interval);setTimeout(()=>{track.classList.remove("on");wrap.style.opacity="1";current=batch.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];batch.forEach(x=>{S.history.unshift(x);if(!S.unique.some(u=>u.text==x.text&&u.region==x.region&&u.type==x.type))S.unique.unshift(x)});S.history=S.history.slice(0,300);S.unique=S.unique.slice(0,1000);if(current.rank>=2)S.luck=Math.min(3,S.luck+.01);save();update();document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=false);$("spin").disabled=false;spinning=false;effect(current)},800)}},95);
 }
-$("spin").onclick=spin;
-document.querySelectorAll(".spin-opt").forEach(b=>b.onclick=()=>{
- if(spinning)return;
- spinCount=+b.dataset.count;
- update();
-});
-$("garageBtn").onclick=()=>{if(!current)return;if(S.garage.some(x=>x.id===current.id))S.garage=S.garage.filter(x=>x.id!==current.id);else S.garage.unshift(current);save();update()}
-function openSheet(kind){
- let title={garage:"🚘 Гараж",shop:"🛒 Магазин",top:"🏆 Топ",collection:"📚 Коллекция"}[kind]||"Nomer";$("sheetTitle").textContent=title;
- let body="";
- if(kind=="garage"){body=S.garage.length?`<div class="list">${S.garage.map(x=>`<div class="row"><div><b>${x.icon} ${x.text} ${x.region}</b><small>${R[x.rank][1]} ${x.rarity} · ₽ ${fmt(x.price)}</small></div><button onclick="removeGarage('${x.id}')">Убрать</button></div>`).join("")}</div>`:`<div class="empty">Гараж пуст.<br>Сохраняй номера после крутки.</div>`}
- if(kind=="collection"){let unique=S.unique.length,regions=new Set(S.unique.map(x=>x.region)).size;body=`<div class="list"><div class="row"><div><b>💎 Уникальных номеров</b><small>${unique}</small></div></div><div class="row"><div><b>🗺️ Регионы</b><small>${regions} / ${REG.length}</small></div></div>${T.map(t=>`<div class="row"><div><b>${t[2]} ${t[1]}</b><small>${S.unique.filter(x=>x.type==t[0]).length} найдено</small></div></div>`).join("")}</div>`}
- if(kind=="shop"){body=`<div class="grid"><div class="mini"><b>⚡ Большой заряд</b><p>+25 ⚡</p><button class="btn" onclick="buyEnergy()">Купить · ₽ 2 500</button></div><div class="mini"><b>🍀 Удача</b><p>+0.10 к множителю</p><button class="btn" onclick="buyLuck()">Купить · ₽ 15 000</button></div></div>`}
- if(kind=="top"){body=`<div class="list"><div class="row"><div><b>👑 Твой рейтинг</b><small>Уровень ${lvl()+1} · ${S.opened} открытий</small></div></div><div class="row"><div><b>💎 Коллекция</b><small>${S.unique.length} уникальных</small></div></div><div class="row"><div><b>🚘 Гараж</b><small>${S.garage.length} номеров</small></div></div></div>`}
- $("sheetBody").innerHTML=body;$("sheet").classList.add("open")
-}
-function removeGarage(id){S.garage=S.garage.filter(x=>x.id!==id);save();openSheet("garage")}
+function garageCap(){return 12+S.garageBonus}
+function removeGarage(id){S.garage=S.garage.filter(x=>x.id!=id);save();openSheet("garage")}
+function addGarage(){if(!current)return;if(S.garage.some(x=>x.id==current.id)){removeGarage(current.id);return}if(S.garage.length>=garageCap()){alert("Гараж заполнен. Купи дополнительные места.");return}S.garage.unshift(current);save();update()}
 function buyEnergy(){if(S.money<2500)return alert("Не хватает денег");S.money-=2500;S.energy+=25;save();update();openSheet("shop")}
 function buyLuck(){if(S.money<15000)return alert("Не хватает денег");S.money-=15000;S.luck=Math.min(3,S.luck+.1);save();update();openSheet("shop")}
-document.querySelectorAll(".nav").forEach(n=>n.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));n.classList.add("active");let k=n.dataset.sheet;if(k=="game"){ $("sheet").classList.remove("open");return}openSheet(k)});
-$("close").onclick=()=>$("sheet").classList.remove("open");$("settings").onclick=()=>alert("Настройки: прогресс сохраняется автоматически в браузере.");
+function buySlot(){let cost=100000;if(S.money<cost)return alert("Нужно ₽100 000");S.money-=cost;S.garageBonus+=2;save();openSheet("garage")}
+function buyTalisman(kind,cost){if(S.talismans[kind])return;if(S.money<cost)return alert("Не хватает денег");S.money-=cost;S.talismans[kind]=true;save();update();openSheet("shop")}
+function completeTask(kind){let now=new Date(),day=now.toISOString().slice(0,10),week=`${now.getFullYear()}-${Math.floor((now-new Date(now.getFullYear(),0,1))/604800000)}`;if(S.tasks.dayStamp!=day){S.tasks.day=0;S.tasks.dayStamp=day}if(S.tasks.weekStamp!=week){S.tasks.week=0;S.tasks.weekStamp=week}if(kind=="day"){if(S.tasks.day>=3)return alert("Сегодня уже 3 задания.");S.tasks.day++;S.money+=3000} else {if(S.tasks.week>=3)return alert("Недельные задания выполнены.");S.tasks.week++;S.money+=10000}save();openSheet("collection")}
+function reroll(){if(S.reroll<=0){if(S.money<5000)return alert("Нужно ₽5 000");S.money-=5000}else S.reroll--;let x=make();current=x;S.history.unshift(x);if(!S.unique.some(u=>u.text==x.text&&u.region==x.region&&u.type==x.type))S.unique.unshift(x);save();update();effect(x)}
+function contract(rank){if(rank>=6)return alert("Секретные номера контрактом не выдаются.");let candidates=S.garage.filter(x=>x.rank==rank);if(candidates.length<5)return alert("Нужно минимум 5 номеров одной редкости в гараже.");let take=candidates.slice(0,Math.min(10,candidates.length));let avg=take.reduce((a,x)=>a+x.price,0)/take.length;S.garage=S.garage.filter(x=>!take.includes(x));let nr=Math.min(5,rank+1),x=make();x.rank=nr;x.rarity=R[nr][0];x.price=Math.round(Math.max(R[nr][2],avg*1.1)/10)*10;x.tags=["КОНТРАК: "+take.length+" → "+R[nr][0],"не менее 110% средней цены"];S.garage.unshift(x);S.contracts++;save();current=x;update();effect(x);openSheet("garage")}
+function dice(){
+ let now=Date.now();if(S.energy>0)return alert("Кости активируются, когда ⚡ = 0.");if(now-S.lastDice<900000)return alert("Кости можно бросить раз в 15 минут.");
+ S.lastDice=now;let a=1+Math.floor(Math.random()*6),b=1+Math.floor(Math.random()*6),sum=a+b;if(sum>5){S.energy+=10;save();update();alert(`🎲 ${a} + ${b} = ${sum}. Больше 5 — +10 ⚡!`)}else{save();alert(`🎲 ${a} + ${b} = ${sum}. Бонуса нет.`)}
+}
+function chanceRows(){
+ return `<div class="list">
+ <div class="row"><div><b class="bluetxt">Обычный</b><small>68.5%</small></div><b>68.5%</b></div>
+ <div class="row"><div><b class="bluetxt">Необычный</b><small>1 из 4</small></div><b>25.5%</b></div>
+ <div class="row"><div><b class="bluetxt">Редкий</b><small>1 из 20</small></div><b>4.9%</b></div>
+ <div class="row"><div><b class="violettxt">Эпический</b><small>1 из 103</small></div><b>0.975%</b></div>
+ <div class="row"><div><b class="goldtxt">Легендарный</b><small>1 из 5 263</small></div><b>0.019%</b></div>
+ <div class="row"><div><b class="redtxt">Мифический</b><small>1 из 100 000</small></div><b>0.001%</b></div>
+ <div class="row"><div><b class="goldtxt">Секретный</b><small>реже 1 из 200 000</small></div><b>секрет</b></div></div>`
+}
+function expensiveRows(){
+ return `<div class="list">${[
+["777","×150"],["001","×400"],["00X · X00 · 0X0","×100 · ×40 · ×20"],["Три одинаковые цифры","×60"],["Первая сотня 010–099 · с дублем 077, 099","×4 · ×10"],["Лесенка · зеркало · пара","×6 · ×5 · ×1.5"],["Три одинаковые буквы · две","×12 · ×1.3"],["Дубль к дублю: X 099 EE","×1.6"],["Москва 77 · Питер 78 · Кавказ","×2–3"],["Цифры в цвет региона","×3"],["Полный комплект","×5"]
+].map(x=>`<div class="row"><div>${x[0]}</div><b>${x[1]}</b></div>`).join("")}</div>`
+}
+function openSheet(kind){
+ let title={garage:"🚘 Гараж",shop:"🛒 Магазин",top:"🏆 Топ",collection:"📚 Коллекция"}[kind]||"Nomer";$("sheetTitle").textContent=title;let body="";
+ if(kind=="garage"){
+  body=`<div class="info">Места: <b>${S.garage.length}/${garageCap()}</b>. Базовый гараж — 12 мест. За ₽100 000: +2 места. За каждые 10 уровней: +12 мест.</div><button class="btn" style="width:100%;margin-top:10px" onclick="buySlot()">➕ +2 места · ₽100 000</button><div class="section-title">НОМЕРА</div>`;
+  body+=S.garage.length?`<div class="list">${S.garage.map(x=>`<div class="row"><div><b>${x.icon} ${x.text}</b><small>${R[x.rank][1]} ${x.rarity} · ₽ ${fmt(x.price)}</small></div><button onclick="removeGarage('${x.id}')">Убрать</button></div>`).join("")}</div>`:`<div class="empty">Гараж пуст.</div>`;
+  body+=`<div class="section-title">КОНТРАКТЫ</div><div class="list">${R.slice(0,6).map((r,i)=>`<div class="row"><div><b>${r[0]}</b><small>5–10 номеров → ${R[Math.min(i+1,5)][0]}</small></div><button onclick="contract(${i})">Сдать</button></div>`).join("")}</div>`
+ }
+ if(kind=="shop"){
+  body=`<div class="grid"><div class="mini"><b>⚡ Большой заряд</b><p>+25 ⚡</p><button class="btn" onclick="buyEnergy()">₽ 2 500</button></div><div class="mini"><b>🍀 Фарт</b><p>+0.10 к множителю</p><button class="btn" onclick="buyLuck()">₽ 15 000</button></div>
+  <div class="mini"><b>🍀 Талисман редкого</b><p>Редкий и выше +15%</p><button class="btn" onclick="buyTalisman('rare',25000)">${S.talismans.rare?"Куплен":"₽ 25 000"}</button></div>
+  <div class="mini"><b>🍀 Талисман эпика</b><p>Эпический и выше +35%</p><button class="btn" onclick="buyTalisman('epic',75000)">${S.talismans.epic?"Куплен":"₽ 75 000"}</button></div>
+  <div class="mini"><b>🍀 Талисман легенды</b><p>Легендарный и выше +100%</p><button class="btn" onclick="buyTalisman('legend',300000)">${S.talismans.legend?"Куплен":"₽ 300 000"}</button></div>
+  <div class="mini"><b>🍀 Талисман мифа</b><p>Мифический и секретный +250%</p><button class="btn" onclick="buyTalisman('mythic',1000000)">${S.talismans.mythic?"Куплен":"₽ 1 000 000"}</button></div></div>
+  <div class="section-title">УДАЧА</div><div class="info">Фарт из магазина усиливает всё от редкого. Талисманы перемножаются.</div>`;
+ }
+ if(kind=="top"){
+  body=`<div class="list"><div class="row"><div><b>👑 Твой рейтинг</b><small>Уровень ${lvl()+1} · ${fmt(S.opened)} открытий</small></div><b>#1</b></div><div class="row"><div><b>💎 Коллекция</b><small>${S.unique.length} уникальных</small></div></div><div class="row"><div><b>🚘 Гараж</b><small>${S.garage.length}/${garageCap()}</small></div></div><div class="row"><div><b>📜 Контракты</b><small>${S.contracts}</small></div></div></div><div class="section-title">ЗАДАНИЯ</div><div class="grid"><div class="mini"><b>Сегодня</b><p>${S.tasks.day}/3 · ₽3 000 за выполнение</p><button class="btn" onclick="completeTask('day')">Выполнить</button></div><div class="mini"><b>Неделя</b><p>${S.tasks.week}/3 · ₽10 000</p><button class="btn" onclick="completeTask('week')">Выполнить</button></div></div>`;
+ }
+ if(kind=="collection"){
+  body=`<div class="section-title">ШАНСЫ</div><div class="info">Честно: игра прогоняет 200 000 случайных номеров на устройстве и показывает, что выпало.</div>${chanceRows()}<div class="section-title">ЗА ЧТО ДОРОЖЕ</div>${expensiveRows()}<div class="section-title">БЛАТНЫЕ СЕРИИ</div><div class="list">${BLAT.map(x=>`<div class="row"><div>${x[0]} ${x[1]?`<small>«${x[1]}»</small>`:""}</div><b>×${x[2]}</b></div>`).join("")}</div><div class="section-title">СЛОВА</div><div class="info">${WORDS.map(x=>x+" ×3").join(" · ")}</div>
+  <div class="section-title">ПРАВИЛА</div><div class="info">
+  Множители перемножаются, а итог сглаживается. Обычный номер ≈ ₽2 000, топовые — десятки миллионов.<br><br>
+  <b>Уровни:</b> нечётный уровень — гарант редкого; 4-й и каждый 5-й — гарант эпика; каждый 10-й — золотая крутка; на 3 и 8 уровне — слот талисмана.<br><br>
+  <b>Контракт:</b> 5–10 номеров одной редкости → один номер на ступень выше, до мифического. Номера сверх пяти идут в зачёт доплаты. Секретный — только из крутки. Сданное вместе с доплатой — не меньше 110% средней цены результата.<br><br>
+  <b>Золотая крутка:</b> эпический или выше — легендарный и выше с повышенным шансом.<br><br>
+  <b>Гараж:</b> 12 мест. За ₽100 000 — +2 места. За каждые 10 уровней — +12. Места шансы не меняют.<br><br>
+  <b>Задания:</b> 3 на день и 3 на неделю с наградами крупнее и разовыми достижениями за всю игру.<br><br>
+  <b>Перекрут:</b> цифр, букв или региона повышает шанс на редкое; цена считается по всем вариантам. Перекрут чуть выгоднее обычной крутки, но в среднем не в плюс.<br><br>
+  <b>Лента кейса:</b> дорогие номера мелькают как витрина. Исход выбирается до прокрутки по тем же шансам.<br><br>
+  <b>Удача:</b> талисман редкого +15%, эпический +35%, легендарный +100%, мифический и секретный +250%. Фарт из магазина усиливает всё от редкого.<br><br>
+  <b>Первая крутка:</b> гарантированный номер ₽70 000–100 000 как стартовый капитал.<br><br>
+  <b>Кости:</b> когда ⚡ = 0, раз в 15 минут. Если сумма двух кубиков больше 5 — +10 ⚡ (26 исходов из 36).
+  </div>`;
+ }
+ $("sheetBody").innerHTML=body;$("sheet").classList.add("open")
+}
+$("spin").onclick=spin;$("garageBtn").onclick=addGarage;$("dice").onclick=dice;
+document.querySelectorAll(".spin-opt").forEach(b=>b.onclick=()=>{if(!spinning){spinCount=+b.dataset.count;update()}});
+document.querySelectorAll(".nav").forEach(n=>n.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));n.classList.add("active");let k=n.dataset.sheet;if(k=="game"){$("sheet").classList.remove("open");return}openSheet(k)});
+$("close").onclick=()=>$("sheet").classList.remove("open");
+$("settings").onclick=()=>openSheet("collection");
 setInterval(()=>{recharge();update()},5000);update();
 </script>
 </body>
