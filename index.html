@@ -9,6 +9,8 @@
 :root{--bg:#080a10;--panel:#11141d;--panel2:#181c27;--line:#292f3d;--text:#f5f7fb;--muted:#8e96a8;--violet:#735cff;--green:#45e29b;--gold:#ffd15a;--red:#ff5577}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#05060a;color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif}
 button{font:inherit;color:inherit;border:0;cursor:pointer}body{padding-bottom:env(safe-area-inset-bottom)}
+
+.grand-dashboard{margin:10px 0 12px;padding:12px;border:1px solid #3a3158;border-radius:20px;background:linear-gradient(135deg,#171329,#101621);box-shadow:0 0 28px #7b4cff18}.gd-head{display:flex;justify-content:space-between;align-items:center;gap:10px}.gd-head b{font-size:12px}.gd-head small{display:block;color:#8e96a8;font-size:10px;margin-top:3px}.gd-head span{background:#241b3d;border:1px solid #59447c;border-radius:999px;padding:6px 9px;font-weight:900;font-size:10px}.gd-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:10px}.gd-grid button{padding:11px;text-align:left;border-radius:13px;background:#171d2a;border:1px solid #2f384b;color:#fff}.gd-grid b{display:block;font-size:11px}.gd-grid small{display:block;color:#8992a6;font-size:9px;margin-top:3px}
 .app{min-height:100vh;max-width:520px;margin:auto;padding:calc(12px + env(safe-area-inset-top)) 14px calc(96px + env(safe-area-inset-bottom));background:radial-gradient(circle at 50% -8%,#29214b 0,#0d1019 35%,#080a10 75%)}
 .header{display:flex;align-items:center;justify-content:space-between}.brand{font-size:25px;font-weight:950}.gear{width:39px;height:39px;border-radius:14px;background:#171b25;border:1px solid var(--line);font-size:18px}
 .topstats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}.stat{background:#12151ee8;border:1px solid var(--line);border-radius:16px;padding:10px 12px}.stat b{font-size:17px}.stat span{font-size:10px;color:var(--muted);display:block;margin-top:2px}
@@ -36,13 +38,22 @@ body.wow-shake{animation:screenShake .42s ease}@keyframes screenShake{0%,100%{tr
 </head>
 <body>
 <div class="app">
-<header class="header"><div><div class="brand">Nomer</div><div style="color:var(--muted);font-size:11px">Охота за редкими номерами</div></div><button class="gear" id="settings">⚙️</button></header>
+<header class="header"><div><div class="brand">NOMER PRO</div><div style="color:var(--muted);font-size:11px">Симулятор охоты и перекупа номеров</div></div><button class="gear" id="settings">⚙️</button></header>
 
 <section class="topstats">
 <div class="stat"><b>⚡ <span id="energy">1000</span></b><span>заряды · +1 / 90 сек</span></div>
 <div class="stat"><b>₽ <span id="money">10 000</span></b><span>баланс</span></div>
 </section>
 <div class="luck"><div>🍀 Удача <strong id="luck">x1.00</strong></div><small>Уровень <b id="level">1</b> · <span id="opened">0</span> открытий</small></div>
+<section id="grandDashboard" class="grand-dashboard">
+  <div class="gd-head"><div><b>🏁 КАРЬЕРА ПЕРЕКУПА</b><small id="gdEvent">Загрузка события…</small></div><span id="gdPrestige">👑 P0</span></div>
+  <div class="gd-grid">
+    <button onclick="openGrand('market2')"><b>🏪 РЫНОК</b><small>Покупатели и торг</small></button>
+    <button onclick="openGrand('cars')"><b>🚘 АВТОПАРК</b><small id="gdCar">Машина не выбрана</small></button>
+    <button onclick="openGrand('contracts')"><b>📜 КОНТРАКТЫ</b><small>Задания и награды</small></button>
+    <button onclick="openGrand('prestige')"><b>👑 ПРЕСТИЖ</b><small id="gdXP">0 / 10 000 XP</small></button>
+  </div>
+</section>
 <div class="spin-options"><button class="spin-opt active" data-count="1">1 ⚡</button><button class="spin-opt" data-count="3">3 ⚡</button><button class="spin-opt" data-count="5">5 ⚡</button><button class="spin-opt" data-count="10">10 ⚡</button></div>
 
 <section class="card">
@@ -577,7 +588,7 @@ setInterval(()=>{recharge();update()},5000);update();
   const save=()=>{try{localStorage.setItem('nomer_full_v1',JSON.stringify(S))}catch(e){}; if(typeof window.update==='function')window.update()};
   const key=x=>`${x.text}|${x.region}|${x.type}`;
   const carDefs=[
-    {id:'vaz2107',name:'ВАЗ 2107',price:0,prestige:1,bonus:0},
+    {id:'vaz2107',name:'ВАЗ 2107',price:0,prestige:0,bonus:0.01},
     {id:'lada',name:'Lada Vesta',price:250000,prestige:2,bonus:0.02},
     {id:'toyota',name:'Toyota Camry',price:900000,prestige:3,bonus:0.04},
     {id:'bmw',name:'BMW M5',price:2500000,prestige:5,bonus:0.08},
@@ -664,6 +675,13 @@ setInterval(()=>{recharge();update()},5000);update();
   window.doPrestige=function(){if(S.xp<10000)return;if(!confirm('Получить престиж? XP и уровень сбросятся.'))return;S.prestige++;S.permaLuck=(S.permaLuck||0)+.05;S.xp=0;S.levelPoints=0;S.luck=Math.min(3,(S.luck||0)+.25);save();openGrand('prestige')};
   window.renameProfile=function(){const n=(prompt('Имя профиля:',S.profile2.name)||'').trim();if(n){S.profile2.name=n.slice(0,24);save();openGrand('profile')}};
   window.setFrame=function(f){S.profile2.frame=f;save();openGrand('profile')};
+  function refreshGrandDashboard(){
+    const e=eventNow(); const ev=document.getElementById('gdEvent'); const pr=document.getElementById('gdPrestige'); const xp=document.getElementById('gdXP'); const car=document.getElementById('gdCar');
+    if(ev)ev.textContent=e[0]+' · '+e[1]; if(pr)pr.textContent='👑 P'+(S.prestige||0); if(xp)xp.textContent=F(S.xp||0)+' / 10 000 XP';
+    if(car){const c=carDefs.find(x=>x.id===S.activeCar);car.textContent=c?c.name+' · +'+Math.round(c.bonus*100)+'%':'Машина не выбрана'}
+  }
+  const oldUpdateGD=window.update; window.update=function(){oldUpdateGD();refreshGrandDashboard()};
+  refreshGrandDashboard();
   const oldMake2=window.make;
   window.make=function(){const x=oldMake2();const car=carDefs.find(c=>c.id===S.activeCar);if(car&&car.bonus){x.price=Math.round(x.price*(1+car.bonus));}x.price=Math.round(x.price*(1+(S.permaLuck||0)*.15));x.price=Math.round(x.price*eventBonus(x));return x};
   const oldOpenSheet=window.openSheet;
