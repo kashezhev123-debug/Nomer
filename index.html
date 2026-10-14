@@ -267,5 +267,420 @@ $("close").onclick=()=>$("sheet").classList.remove("open");
 $("settings").onclick=adminPanel;
 setInterval(()=>{recharge();update()},5000);update();
 </script>
+<script>
+
+// Advanced Nomer layer
+(function(){
+  const oldMake = window.make;
+  const oldUpdate = window.update;
+  const oldOpenSheet = window.openSheet;
+  const oldSave = window.save;
+  const F = n => Math.round(n).toLocaleString('ru-RU');
+  const key = x => `${x.text}|${x.region}|${x.type}`;
+  const ensure = (o,k,v)=>{ if(o[k]===undefined) o[k]=v; };
+  ensure(S,'xp',0); ensure(S,'levelPoints',0); ensure(S,'totalEarned',0); ensure(S,'totalSpent',0);
+  ensure(S,'bestPrice',0); ensure(S,'sales',0); ensure(S,'found',0); ensure(S,'discarded',0); ensure(S,'marketSales',0);
+  ensure(S,'achievements',{}); ensure(S,'season',{id:'S1',xp:0,claimed:[]}); ensure(S,'tasks2',{day:{date:'',open:0,sell:0,rare:0,earn:0},week:{id:'',open:0,sell:0,rare:0,earn:0}});
+  ensure(S,'events',{active:'none',ends:0}); ensure(S,'historySales',[]); ensure(S,'marketOffers',[]);
+  ensure(S,'profile',{name:'Коллекционер',title:'Новичок'}); ensure(S,'premium',0); ensure(S,'settings2',{sound:true});
+  function save2(){ oldSave(); }
+  function ownedKey(x){ return key(x); }
+  function isLocked(x){ return (S.unique||[]).some(u=>key(u)===key(x)); }
+  function addUnique(x){ if(!S.unique.some(u=>key(u)===key(x))) S.unique.unshift(x); S.unique=S.unique.slice(0,5000); }
+  function removeUnique(x){ S.unique=S.unique.filter(u=>key(u)!==key(x)); }
+  function uniqueMake(){
+    let x=null; const reserved=S._reserved||[];
+    for(let i=0;i<600;i++){ const y=oldMake(); const lv=level(); const minRank=lv>=100?6:lv>=70?5:lv>=40?4:lv>=20?3:lv>=10?2:lv>=5?1:0; if(y.rank<minRank){ y.rank=minRank; y.rarity=R[minRank][0]; y.price=Math.max(y.price,R[minRank][2]); } if(!isLocked(y) && !reserved.some(u=>key(u)===key(y))){ x=y; break; } }
+    if(!x){
+      const y=oldMake(); y.text='А 001 АА '+(y.region||'07'); x=y;
+    }
+    reserved.push(x); S._reserved=reserved.slice(-50);
+    return x;
+  }
+  window.make = uniqueMake;
+
+  // Level system: 100 XP per level, XP from real actions.
+  function level(){ return Math.max(1,Math.floor((S.xp||0)/100)+1); }
+  function addXP(n){ S.xp=(S.xp||0)+n; S.levelPoints=(S.levelPoints||0)+n; checkAchievements(); save2(); }
+  function seasonLevel(){ return Math.floor((S.season.xp||0)/100)+1; }
+  function addSeasonXP(n){ S.season.xp+=n; save2(); }
+  function seasonId(){ const d=new Date(); return `${d.getFullYear()}-${Math.floor((d.getMonth())/3)+1}`; }
+  function resetTasks(){
+    const d=new Date().toISOString().slice(0,10); const w=`${new Date().getFullYear()}-W${Math.ceil((((new Date()-new Date(new Date().getFullYear(),0,1))/86400000)+1)/7)}`;
+    if(S.tasks2.day.date!==d) S.tasks2.day={date:d,open:0,sell:0,rare:0,earn:0};
+    if(S.tasks2.week.id!==w) S.tasks2.week={id:w,open:0,sell:0,rare:0,earn:0};
+    if(S.season.id!==seasonId()) S.season={id:seasonId(),xp:0,claimed:[]};
+  }
+  function checkAchievements(){
+    const a=S.achievements;
+    const defs=[
+      ['first','Первый номер','Найди первый номер',S.found>=1,5000],
+      ['ten','Коллекционер','Найди 10 номеров',S.found>=10,10000],
+      ['hundred','Охотник','Найди 100 номеров',S.found>=100,50000],
+      ['million','Миллионер','Заработай ₽1 000 000',S.totalEarned>=1000000,100000],
+      ['rare','Редкий улов','Получи редкий+',S.bestPrice>=30000,25000],
+      ['garage','Гараж','Собери 10 номеров',S.garage.length>=10,30000],
+      ['legend','Легенда','Найди легендарный+',S.history.some(x=>x.rank>=4),250000],
+      ['market','Торговец','Продай 10 номеров',S.sales>=10,50000]
+    ];
+    defs.forEach(d=>{ if(d[3]&&!a[d[0]]){a[d[0]]=true;S.money+=d[4];addSeasonXP(25);}});
+  }
+
+  function styleAdvanced(){
+    if(document.getElementById('advanced-style')) return;
+    const s=document.createElement('style'); s.id='advanced-style'; s.textContent=`
+      .adv-menu{display:grid;grid-template-columns:1fr 1fr;gap:8px}.adv-tile{background:#151a25;border:1px solid #30384a;border-radius:16px;padding:14px;text-align:left}.adv-tile b{font-size:13px}.adv-tile small{display:block;color:#8e96a8;margin-top:5px}.sale-modal{position:fixed;inset:0;z-index:90;display:grid;place-items:end center;background:#000b}.sale-box{width:min(520px,100%);padding:18px 14px calc(20px + env(safe-area-inset-bottom));background:#10141e;border:1px solid #353d50;border-radius:25px 25px 0 0;box-shadow:0 -20px 80px #000}.sale-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.sale-actions button{padding:14px;border-radius:13px;background:#242b3b;font-weight:900}.sale-actions .sell{background:linear-gradient(135deg,#2d9c6d,#45e29b);color:#07130e}.sale-actions .keep{background:linear-gradient(135deg,#7256ff,#a448ff)}.market-card{background:#121722;border:1px solid #30384a;border-radius:17px;padding:13px;margin-bottom:8px}.market-card .mrow{display:flex;justify-content:space-between;align-items:center;gap:8px}.market-card button{background:#252c3c;border-radius:9px;padding:8px 10px;font-weight:800}.bar2{height:8px;background:#252b38;border-radius:8px;overflow:hidden}.bar2 i{display:block;height:100%;background:linear-gradient(90deg,#6f57ff,#45e29b)}.statbig{font-size:25px;font-weight:950}.muted2{color:#8e96a8;font-size:11px}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.admin-grid button{padding:11px;border-radius:11px;background:#242a38}.decision-one-actions{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:9px}.decision-one-actions button{padding:9px 5px;border-radius:10px;font-size:11px}.keep-one{background:#7256ff!important;color:#fff}.sell-one{background:#2d9c6d!important;color:#07130e}.discard-one{background:#242a38!important;color:#ff8295}.discard-all{width:100%;margin-top:8px;background:#1b202c;padding:12px;border-radius:12px;font-weight:900}.bulk-title{margin-top:12px;color:#8e96a8;font-size:11px;text-transform:uppercase}.sale-actions button:disabled{opacity:.4;filter:grayscale(1)}.gold{color:#ffd15a}.danger2{color:#ff6680}.green2{color:#69e8aa}
+    `;document.head.appendChild(s);
+  }
+  function advancedMenu(){
+    return `<div class="adv-menu">
+      <button class="adv-tile" onclick="openAdvanced('market')"><b>🏪 Рынок</b><small>Покупатели и выгодные предложения</small></button>
+      <button class="adv-tile" onclick="openAdvanced('stats')"><b>📊 Статистика</b><small>Прибыль, продажи, рекорды</small></button>
+      <button class="adv-tile" onclick="openAdvanced('collections2')"><b>📚 Альбом</b><small>Серии, регионы и коллекционные наборы</small></button>
+      <button class="adv-tile" onclick="openAdvanced('wish')"><b>🎯 Моя цель</b><small>Охота за конкретным номером</small></button>
+      <button class="adv-tile" onclick="openAdvanced('season')"><b>🏆 Сезон</b><small>Награды и сезонный прогресс</small></button>
+      <button class="adv-tile" onclick="openAdvanced('tasks2')"><b>🎯 Задания</b><small>Реальные ежедневные и недельные цели</small></button>
+      <button class="adv-tile" onclick="openAdvanced('ach')"><b>🏅 Достижения</b><small>Постоянные награды</small></button>
+      <button class="adv-tile" onclick="openAdvanced('backup')"><b>💾 Сохранение</b><small>Экспорт и импорт прогресса</small></button>
+      <button class="adv-tile" onclick="openAdvanced('admin')"><b>🛠 Админ</b><small>Управление локальной игрой</small></button>
+      <button class="adv-tile" onclick="openAdvanced('rules')"><b>📖 Правила</b><small>Все основные механики</small></button>
+    </div>`;
+  }
+  function setSheet(title,body){ $('sheetTitle').textContent=title; $('sheetBody').innerHTML=body; $('sheet').classList.add('open'); styleAdvanced(); }
+  function openAdvanced(kind){
+    resetTasks();
+    if(kind==='market'){
+      const offers = generateOffers();
+      setSheet('🏪 Рынок',`<div class="info">Покупатели предлагают цену на номера из гаража. Хороший номер можно придержать для более выгодного предложения.</div><div class="section-title">ПРЕДЛОЖЕНИЯ</div>${offers}`); return;
+    }
+    if(kind==='stats'){
+      const avg=S.sales?Math.round(S.totalEarned/S.sales):0;
+      setSheet('📊 Статистика',`<div class="grid"><div class="mini"><small>Найдено</small><div class="statbig">${F(S.found)}</div></div><div class="mini"><small>Продано</small><div class="statbig">${F(S.sales)}</div></div><div class="mini"><small>Заработано</small><div class="statbig gold">₽${F(S.totalEarned)}</div></div><div class="mini"><small>Средняя продажа</small><div class="statbig">₽${F(avg)}</div></div><div class="mini"><small>Лучший номер</small><div class="statbig">₽${F(S.bestPrice)}</div></div><div class="mini"><small>Уровень</small><div class="statbig">${level()}</div></div></div><div class="section-title">ПРОГРЕСС</div><div class="bar2"><i style="width:${(S.xp%100)}%"></i></div><div class="muted2">${S.xp%100}/100 XP до следующего уровня</div>`); return;
+    }
+    if(kind==='season'){
+      const sl=seasonLevel(), sx=S.season.xp%100, rewards=[5000,10000,25000,50000,100000,250000,500000,1000000];
+      setSheet('🏆 Сезон',`<div class="info">Сезон <b>${S.season.id}</b>. Получай XP за реальные действия. Награды можно забирать один раз.</div><div class="section-title">СЕЗОННЫЙ УРОВЕНЬ ${sl}</div><div class="bar2"><i style="width:${sx}%"></i></div><div class="muted2">${sx}/100 XP</div><div class="section-title">НАГРАДЫ</div><div class="list">${rewards.map((r,i)=>{let n=i+1,claim=S.season.claimed.includes(n),ok=sl>=n;return `<div class="row"><div><b>Уровень ${n}</b><small>₽ ${F(r)}</small></div><button ${!ok||claim?'disabled':''} onclick="claimSeason(${n},${r})">${claim?'Получено':ok?'Забрать':'🔒'}</button></div>`}).join('')}</div>`);return;
+    }
+    if(kind==='tasks2'){
+      resetTasks(); const d=S.tasks2.day,w=S.tasks2.week;
+      const day=[['open','Открыть 10 номеров',d.open,10,5000],['sell','Продать 3 номера',d.sell,3,8000],['rare','Найти 1 редкий+',d.rare,1,10000],['earn','Заработать ₽50 000',d.earn,50000,12000]];
+      const week=[['open','Открыть 100 номеров',w.open,100,50000],['sell','Продать 25 номеров',w.sell,25,75000],['rare','Найти 10 редких+',w.rare,10,100000],['earn','Заработать ₽500 000',w.earn,500000,150000]];
+      setSheet('🎯 Задания',`<div class="section-title">СЕГОДНЯ</div><div class="list">${day.map(q=>taskRow(q,'day')).join('')}</div><div class="section-title">НЕДЕЛЯ</div><div class="list">${week.map(q=>taskRow(q,'week')).join('')}</div>`);return;
+    }
+    if(kind==='ach'){
+      const defs=[['first','Первый номер','1 найдено'],['ten','Коллекционер','10 найдено'],['hundred','Охотник','100 найдено'],['million','Миллионер','₽1 млн заработано'],['rare','Редкий улов','лучший ₽30 тыс.+'],['garage','Гараж','10 номеров в гараже'],['legend','Легенда','легендарный+'],['market','Торговец','10 продаж']];
+      setSheet('🏅 Достижения',`<div class="list">${defs.map(x=>`<div class="row"><div><b>${S.achievements[x[0]]?'🏆':'🔒'} ${x[1]}</b><small>${x[2]}</small></div><b class="${S.achievements[x[0]]?'green2':'muted2'}">${S.achievements[x[0]]?'Получено':''}</b></div>`).join('')}</div>`);return;
+    }
+    if(kind==='backup'){
+      setSheet('💾 Сохранение',`<div class="info">Экспорт создает текстовую копию прогресса. Храни её отдельно и импортируй обратно при необходимости.</div><button class="btn" style="width:100%;margin-top:10px" onclick="exportSave()">📤 Экспортировать сохранение</button><textarea id="saveText" style="width:100%;height:150px;margin-top:8px;background:#0b0e15;color:#fff;border:1px solid #30384a;border-radius:12px;padding:10px" placeholder="Вставь сюда сохранение для импорта"></textarea><button class="btn" style="width:100%;margin-top:8px" onclick="importSave()">📥 Импортировать</button><button class="btn" style="width:100%;margin-top:8px" onclick="resetAll()">⚠️ Полностью сбросить прогресс</button>`);return;
+    }
+    if(kind==='admin'){
+      setSheet('🛠 Админ-панель',`<div class="info">Локальная админка. Пароль: <b>1234</b>. Для реального онлайн-проекта эту систему нужно переносить на сервер.</div><button class="btn" style="width:100%;margin-top:10px" onclick="adminLogin()">🔐 Войти</button>`);return;
+    }
+    if(kind==='collections2'){renderCollections2();return;}
+    if(kind==='wish'){renderWish();return;}
+    if(kind==='rules'){
+      setSheet('📖 Правила',`<div class="info"><b>Уникальные номера:</b> номер не повторяется, пока он находится в гараже или был сохранен как результат. При продаже он освобождается и может снова выпасть.<br><br><b>Продажа:</b> обычная продажа дает 100% стоимости. Рынок может предложить больше или меньше.<br><br><b>Прокрутки:</b> 1 / 3 / 5 / 10. При массовой прокрутке уникальность проверяется для каждого результата.<br><br><b>Прокачка:</b> реальные действия дают XP. Уровни открывают новые награды и бонусы.<br><br><b>Сезон:</b> отдельный прогресс с наградами.<br><br><b>Коллекции:</b> красивые цифры, серии, регионы и редкие типы номеров.</div>`);return;
+    }
+  }
+  function collectionSets(){
+    const u=S.unique||[];
+    return [
+      {id:'triple',name:'777 охота',desc:'Собери 3 номера с цифрами 777',items:u.filter(x=>/777/.test(x.text)).length,need:3,reward:150000},
+      {id:'zeros',name:'Нулевые',desc:'Собери 3 номера с 001',items:u.filter(x=>/001/.test(x.text)).length,need:3,reward:120000},
+      {id:'mirror',name:'Зеркала',desc:'Собери 5 зеркальных комбинаций',items:u.filter(x=>{const d=(x.text.match(/\d/g)||[]).join('');return d.length>=3&&d===d.split('').reverse().join('')}).length,need:5,reward:200000},
+      {id:'regions',name:'Карта России',desc:'Собери номера минимум из 10 регионов',items:new Set(u.map(x=>x.region)).size,need:10,reward:250000},
+      {id:'rare',name:'Охотник за редкостью',desc:'Собери 10 номеров редкости 3+',items:u.filter(x=>x.rank>=3).length,need:10,reward:300000}
+    ];
+  }
+  function renderCollections2(){
+    const sets=collectionSets();
+    const claimed=S.collectionClaims||{};
+    const rows=sets.map(c=>{const pct=Math.min(100,Math.round(c.items/c.need*100));const done=c.items>=c.need;return `<div class="market-card"><div class="mrow"><div><b>🏆 ${c.name}</b><div class="muted2">${c.desc}</div></div><b class="gold">${c.items}/${c.need}</b></div><div class="bar2" style="margin-top:9px"><i style="width:${pct}%"></i></div><button style="margin-top:8px;width:100%" ${!done||claimed[c.id]?'disabled':''} onclick="claimCollection('${c.id}',${c.reward})">${claimed[c.id]?'Получено':done?'Забрать ₽'+F(c.reward):'Собирать дальше'}</button></div>`}).join('');
+    setSheet('📚 Альбом коллекционера',rows);
+  }
+  window.claimCollection=function(id,reward){S.collectionClaims=S.collectionClaims||{};if(S.collectionClaims[id])return;const c=collectionSets().find(x=>x.id===id);if(!c||c.items<c.need)return;S.collectionClaims[id]=true;S.money+=reward;S.totalEarned+=reward;addXP(50);addSeasonXP(50);save2();renderCollections2();update();};
+  window.setWish=function(){const text=(prompt('Желаемый номер, например: А 777 АА')||'').trim().toUpperCase();if(!text)return;S.wish.text=text;save2();openAdvanced('wish');};
+  function renderWish(){
+    const w=S.wish||{};const found=(S.history||[]).find(x=>w.text&&x.text===w.text);
+    setSheet('🎯 Моя цель',`<div class="info">Задай номер, за которым сейчас охотишься. Игра будет отмечать его при выпадении.</div><div class="market-card" style="margin-top:10px"><b>${w.text||'Цель не выбрана'}</b><div class="muted2" style="margin-top:5px">${found?'🔥 ЦЕЛЬ НАЙДЕНА!':'Продолжай охоту'}</div></div><button class="btn" style="width:100%;margin-top:8px" onclick="setWish()">🎯 Изменить цель</button>`);
+  }
+  window.openAdvanced=openAdvanced;
+
+  function taskRow(q,period){
+    const obj=S.tasks2[period], val=obj[q[0]]; const done=val>=q[3]; const claimed=obj['c_'+q[0]];
+    return `<div class="row"><div><b>${q[1]}</b><small>${typeof q[3]==='number'&&q[3]>=1000?'₽ ':''}${F(val)} / ${F(q[3])} · ₽${F(q[4])}</small></div><button ${!done||claimed?'disabled':''} onclick="claimTask2('${period}','${q[0]}',${q[4]})">${claimed?'Получено':done?'Забрать':'В процессе'}</button></div>`;
+  }
+  window.claimTask2=function(period,k,reward){ const o=S.tasks2[period]; if(o[k]===undefined||o[k]<({'open':period==='day'?10:100,'sell':period==='day'?3:25,'rare':period==='day'?1:10,'earn':period==='day'?50000:500000}[k])) return; if(o['c_'+k]) return; o['c_'+k]=true; S.money+=reward; S.totalEarned+=reward; addXP(20); addSeasonXP(20); save2(); openAdvanced('tasks2'); update(); };
+  window.claimSeason=function(n,r){ if(S.season.claimed.includes(n)||seasonLevel()<n)return;S.season.claimed.push(n);S.money+=r;S.totalEarned+=r;save2();openAdvanced('season');update(); };
+
+  function generateOffers(){
+    if(!S.garage.length) return `<div class="empty">В гараже нет номеров для продажи. Сначала поймай номер.</div>`;
+    return S.garage.slice(0,20).map(x=>{const demand=0.75+Math.random()*0.7; const offer=Math.max(100,Math.round(x.price*demand/10)*10);return `<div class="market-card"><div class="mrow"><div><b>${x.icon} ${x.text}</b><div class="muted2">${x.rarity} · твоя оценка ₽${F(x.price)}</div></div><b class="gold">₽${F(offer)}</b></div><div class="muted2" style="margin-top:8px">${offer>=x.price?'🔥 Покупатель переплачивает':'💬 Можно подождать лучшего покупателя'}</div><button style="margin-top:8px" onclick="marketSell('${x.id}',${offer})">Продать за ₽${F(offer)}</button></div>`}).join('');
+  }
+  window.marketSell=function(id,offer){const x=S.garage.find(a=>a.id===id);if(!x)return;S.garage=S.garage.filter(a=>a.id!==id);removeUnique(x);S.money+=offer;S.totalEarned+=offer;S.sales++;S.marketSales++;S.historySales.unshift({id:x.id,text:x.text,price:offer,date:new Date().toLocaleString('ru-RU')});S.historySales=S.historySales.slice(0,200);S.tasks2.day.sell++;S.tasks2.week.sell++;S.tasks2.day.earn+=offer;S.tasks2.week.earn+=offer;addXP(15);addSeasonXP(15);checkAchievements();save2();openAdvanced('market');update();};
+
+  function clearPending(){ S._reserved=[]; window.pendingBatch=[]; window.pendingResolved=[]; }
+  function pendingTotals(){
+    const b=window.pendingBatch||[];
+    return {count:b.length,value:b.reduce((a,x)=>a+x.price,0)};
+  }
+  function refreshDecision(){
+    const m=document.getElementById('decision'); if(!m)return;
+    const b=window.pendingBatch||[];
+    if(!b.length){ finishAction(); return; }
+    const t=pendingTotals();
+    const cards=b.map((z,i)=>`<div class="market-card pending-card"><div class="mrow"><div style="min-width:0"><b>${z.icon} ${z.text}</b><div class="muted2">${z.typeName} · ${z.rarity} · ₽${F(z.price)}</div></div><b class="gold">#${i+1}</b></div><div class="decision-one-actions"><button class="keep-one" onclick="resolvePending(${i},'keep')">🚘 В гараж</button><button class="sell-one" onclick="resolvePending(${i},'sell')">💰 Продать</button><button class="discard-one" onclick="resolvePending(${i},'discard')">🗑️ Выбросить</button></div></div>`).join('');
+    const disabledGarage=S.garage.length+b.length>garageCap();
+    m.querySelector('.decision-count').textContent=`Осталось: ${t.count} · ₽${F(t.value)}`;
+    m.querySelector('.decision-cards').innerHTML=cards;
+    const bulk=m.querySelector('.bulk-keep');
+    if(bulk){ bulk.disabled=disabledGarage; bulk.title=disabledGarage?'В гараже не хватит мест':''; }
+  }
+  window.showDecision=function(x){
+    const batch=(window.pendingBatch&&window.pendingBatch.length)?window.pendingBatch:[x];
+    window.pendingBatch=batch.slice(); window.pendingResolved=window.pendingResolved||[];
+    const m=document.createElement('div');m.className='sale-modal';m.id='decision';
+    m.innerHTML=`<div class="sale-box"><div style="font-size:11px;color:#8e96a8">РЕЗУЛЬТАТ КРУТКИ · ${batch.length} НОМЕР${batch.length>1?'А':''}</div><h2 style="margin:6px 0">🎉 Реши судьбу каждого номера</h2><div class="muted2 decision-count"></div><div class="decision-cards" style="max-height:52vh;overflow:auto;margin-top:10px"></div><div class="bulk-title">Быстрые действия</div><div class="sale-actions"><button class="sell" onclick="decisionSellAll()">💰 Продать оставшиеся</button><button class="keep bulk-keep" onclick="decisionKeepAll()">🚘 Сохранить оставшиеся</button></div><button class="discard-all" onclick="decisionDiscardAll()">🗑️ Отказаться от оставшихся</button></div>`;
+    document.body.appendChild(m); refreshDecision();
+  };
+  function finishAction(){ document.getElementById('decision')?.remove(); clearPending(); save2(); update(); }
+  function recordResolved(x,action){
+    if(action==='sell'){
+      S.money+=x.price; S.totalEarned+=x.price; S.sales++; S.found++; S.bestPrice=Math.max(S.bestPrice,x.price);
+      S.tasks2.day.sell++; S.tasks2.week.sell++; S.tasks2.day.earn+=x.price; S.tasks2.week.earn+=x.price;
+    }else if(action==='keep'){
+      S.found++; S.bestPrice=Math.max(S.bestPrice,x.price);
+    }else if(action==='discard'){
+      S.discarded++;
+    }
+    if(action!=='discard' && x.rank>=2){S.tasks2.day.rare++;S.tasks2.week.rare++;}
+    if(action!=='discard'){addXP(10);addSeasonXP(10);}
+    checkAchievements();
+  }
+  window.resolvePending=function(index,action){
+    const b=window.pendingBatch||[]; const x=b[index]; if(!x)return;
+    if(action==='keep'){
+      if(S.garage.length>=garageCap()){alert('В гараже нет свободного места. Купи место или продай номер.');return;}
+      if(S.garage.some(g=>key(g)===key(x))){alert('Этот номер уже есть в гараже.');return;}
+      S.garage.unshift(x); // уникальность уже заблокирована до решения
+    }else if(action==='sell'){
+      removeUnique(x);
+      S.historySales.unshift({id:x.id,text:x.text,price:x.price,date:new Date().toLocaleString('ru-RU')});
+      S.historySales=S.historySales.slice(0,200);
+    }else if(action==='discard'){
+      removeUnique(x);
+    }
+    b.splice(index,1); recordResolved(x,action); window.pendingResolved=(window.pendingResolved||[]).concat([{...x,action}]);
+    if(!b.length){finishAction();return;}
+    save2(); update(); refreshDecision();
+  };
+  window.decisionSellAll=function(){const b=(window.pendingBatch||[]).slice();if(!b.length)return;b.forEach(x=>{removeUnique(x);S.historySales.unshift({id:x.id,text:x.text,price:x.price,date:new Date().toLocaleString('ru-RU')});recordResolved(x,'sell');});S.historySales=S.historySales.slice(0,200);finishAction();};
+  window.decisionKeepAll=function(){const b=(window.pendingBatch||[]).slice();if(!b.length)return;if(S.garage.length+b.length>garageCap()){alert('В гараже не хватает мест. Продай часть номеров или купи места.');return;}b.forEach(x=>{if(!S.garage.some(g=>key(g)===key(x)))S.garage.unshift(x);recordResolved(x,'keep');});finishAction();};
+  window.decisionDiscardAll=function(){const b=(window.pendingBatch||[]).slice();if(!b.length)return;b.forEach(x=>{removeUnique(x);recordResolved(x,'discard');});finishAction();};
+
+  // Garage: replace rendering to include sell button and stats.
+  function renderGarage(){
+    const body=`<div class="info">Места: <b>${S.garage.length}/${garageCap()}</b> · стоимость гаража: <b class="gold">₽${F(S.garage.reduce((a,x)=>a+x.price,0))}</b></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px"><button class="btn" onclick="buySlot()">➕ +2 места · ₽100 000</button><button class="btn" onclick="openAdvanced('market')">🏪 Рынок</button></div><div class="section-title">НОМЕРА</div>`;
+    const list=S.garage.length?`<div class="list">${S.garage.map(x=>`<div class="row"><div><b>${x.icon} ${x.text}</b><small>${R[x.rank][1]} ${x.rarity} · ₽ ${F(x.price)}</small></div><div style="display:flex;gap:5px"><button onclick="removeGarage('${x.id}')">Убрать</button><button onclick="sellGarageFull('${x.id}')">💰 ₽${F(x.price)}</button></div></div>`).join('')}</div>`:`<div class="empty">Гараж пуст.</div>`;
+    setSheet('🚘 Гараж',body+list);
+  }
+  window.sellGarageFull=function(id){const x=S.garage.find(a=>a.id===id);if(!x)return;if(!confirm(`Продать ${x.text} за ₽${F(x.price)}?`))return;S.garage=S.garage.filter(a=>a.id!==id);removeUnique(x);S.money+=x.price;S.totalEarned+=x.price;S.sales++;S.historySales.unshift({text:x.text,price:x.price,date:new Date().toLocaleString('ru-RU')});S.tasks2.day.sell++;S.tasks2.week.sell++;S.tasks2.day.earn+=x.price;S.tasks2.week.earn+=x.price;addXP(15);addSeasonXP(15);checkAchievements();save2();renderGarage();update();};
+  window.removeGarage=function(id){const x=S.garage.find(a=>a.id===id);if(!x)return;if(!confirm('Убрать номер из гаража? Он останется заблокированным в коллекции.'))return;S.garage=S.garage.filter(a=>a.id!==id);save2();renderGarage();};
+
+  // Admin
+  window.adminLogin=function(){const p=prompt('Пароль администратора:');if(p!=='1234'){alert('Неверный пароль');return;}renderAdmin();};
+  function renderAdmin(){
+    setSheet('🛠 Админ-панель',`<div class="info">Локальная разработческая панель.</div><div class="admin-grid" style="margin-top:10px"><button onclick="adminMoney(100000)">+₽100 000</button><button onclick="adminMoney(10000000)">+₽10 млн</button><button onclick="adminEnergy(1000)">+⚡1000</button><button onclick="adminEnergy(100000)">+⚡100 000</button><button onclick="adminLuck(2)">Удача ×2</button><button onclick="adminLuck(3)">Удача ×3</button><button onclick="adminRare(4)">Выдать легендарный</button><button onclick="adminRare(6)">Выдать секретный</button><button onclick="adminLevel(10)">+10 уровней</button><button onclick="adminLevel(100)">+100 уровней</button></div><div class="section-title">СОСТОЯНИЕ</div><div class="info">₽${F(S.money)} · ⚡${F(S.energy)} · XP ${F(S.xp)} · уровень ${level()} · гараж ${S.garage.length}/${garageCap()}</div><button class="btn" style="width:100%;margin-top:10px" onclick="resetAll()">⚠️ Полный сброс</button>`);
+  }
+  window.adminMoney=function(n){S.money+=n;save2();renderAdmin();update()}; window.adminEnergy=function(n){S.energy+=n;save2();renderAdmin();update()}; window.adminLuck=function(n){S.luck=n;save2();renderAdmin();update()}; window.adminLevel=function(n){S.xp+=n*100;save2();renderAdmin();update()};
+  window.adminRare=function(rank){let x=uniqueMake();x.rank=rank;x.rarity=R[rank][0];x.price=R[rank][2];x.tags=['АДМИН'];window.pendingBatch=[x];current=x;effect(x);setTimeout(()=>showDecision(x),500);save2();};
+  window.exportSave=function(){const txt=btoa(unescape(encodeURIComponent(JSON.stringify(S))));$('saveText').value=txt;$('saveText').select();navigator.clipboard?.writeText(txt).catch(()=>{});alert('Сохранение скопировано в буфер, если браузер разрешил доступ.')};
+  window.importSave=function(){try{const raw=decodeURIComponent(escape(atob($('saveText').value.trim())));const x=JSON.parse(raw);localStorage.setItem('nomer_full_v1',JSON.stringify(x));location.reload()}catch(e){alert('Не удалось импортировать сохранение')}};
+  window.resetAll=function(){if(!confirm('Удалить весь прогресс?'))return;localStorage.removeItem('nomer_full_v1');location.reload()};
+
+  // Hook existing sheet calls and UI.
+  window.openSheet=function(kind){ if(kind==='garage'){renderGarage();return;} if(kind==='top'){ oldOpenSheet('top'); setTimeout(()=>{const b=document.getElementById('sheetBody');if(b)b.innerHTML+=`<div class="section-title">ЕЩЁ</div>${advancedMenu()}`},0); return;} oldOpenSheet(kind); };
+  window.update=function(){ resetTasks(); oldUpdate(); $('level').textContent=level(); if($('nextText'))$('nextText').textContent=F(level()*100); };
+  // Skip reel animation: result is already generated, only the visual scroll is skipped.
+  let skipSpinRequested=false, spinInterval=null, spinTimeout=null;
+  function ensureSkipButton(){
+    if(document.getElementById('skipSpin')) return;
+    const b=document.createElement('button'); b.id='skipSpin'; b.textContent='⏩ Пропустить прокрутку';
+    b.style.cssText='display:none;width:100%;margin-top:8px;padding:12px;border-radius:12px;background:#272d3b;border:1px solid #41495e;color:#fff;font-weight:900;box-shadow:0 0 18px #7657ff22';
+    const spinBtn=$('spin'); if(spinBtn&&spinBtn.parentNode) spinBtn.parentNode.insertBefore(b,spinBtn.nextSibling);
+    b.onclick=()=>{ if(!spinning)return; skipSpinRequested=true; finishSpinAnimation(); };
+  }
+  function finishSpinAnimation(){
+    if(!spinning)return;
+    if(spinInterval){clearInterval(spinInterval);spinInterval=null;}
+    if(spinTimeout){clearTimeout(spinTimeout);spinTimeout=null;}
+    const batch=(window._activeSpinBatch||[]).slice();
+    const track=$('reelTrack'),wrap=$('plateWrap');
+    track?.classList.remove('on'); if(wrap)wrap.style.opacity='1';
+    const best=batch.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];
+    current=best; currentBatch=batch;
+    batch.forEach(x=>{S.history.unshift(x);addUnique(x);});
+    S.history=S.history.slice(0,300);
+    if(best.rank>=2)S.luck=Math.min(3,S.luck+.01);
+    window.pendingBatch=batch.slice(); S._reserved=[];
+    save2(); update();
+    document.querySelectorAll('.spin-opt').forEach(b=>b.disabled=false);
+    $('spin').disabled=false; spinning=false;
+    const skip=$('skipSpin'); if(skip)skip.style.display='none';
+    const wasSkipped=skipSpinRequested;
+    skipSpinRequested=false;
+    if(!wasSkipped) effect(best);
+    setTimeout(()=>showDecision(best), wasSkipped?0:650);
+  }
+  function advancedSpin(){
+    if(spinning)return;
+    recharge(); if(S.energy<spinCount){alert(`Нужно ${spinCount} ⚡`);return;}
+    spinning=true; S.energy-=spinCount; S.opened+=spinCount;
+    const batch=Array.from({length:spinCount},()=>uniqueMake()); window._activeSpinBatch=batch;
+    document.querySelectorAll('.spin-opt').forEach(b=>b.disabled=true); $('spin').disabled=true;
+    ensureSkipButton(); $('skipSpin').style.display='block';
+    const track=$('reelTrack'),wrap=$('plateWrap'); track.classList.add('on'); wrap.style.opacity='0';
+    let ticks=0,total=spinCount===1?20:28+spinCount*2;
+    spinInterval=setInterval(()=>{
+      track.innerHTML='';
+      for(let i=0;i<Math.min(10,spinCount+5);i++){
+        const fake=oldMake(false),d=document.createElement('div'); d.className='reel-card';
+        d.innerHTML=`<div class="plate mini ${fake.plateClass}">${plateHTML(fake)}</div>`; track.appendChild(d);
+      }
+      ticks++;
+      if(ticks>=total){clearInterval(spinInterval);spinInterval=null;spinTimeout=setTimeout(finishSpinAnimation,800);}
+    },95);
+  }
+  window.spin=advancedSpin;
+  ensureSkipButton();
+  styleAdvanced(); resetTasks();
+  // Add advanced button under nav without changing original HTML.
+  const nav=document.querySelector('.bottom'); if(nav && !document.getElementById('moreNav')){const b=document.createElement('button');b.className='nav';b.id='moreNav';b.innerHTML='<div>☰</div>Ещё';b.onclick=()=>setSheet('☰ Меню',advancedMenu());nav.appendChild(b);nav.style.gridTemplateColumns='repeat(6,1fr)';}
+  // ensure current initial number doesn't count as locked until a real decision
+  save2();
+})();
+
+
+</script>
+
+<script>
+// Nomer — Grand Expansion Pack
+(function(){
+  const baseOpen = window.openAdvanced;
+  const F=n=>Math.round(n).toLocaleString('ru-RU');
+  const ensure=(o,k,v)=>{if(o[k]===undefined)o[k]=v};
+  ensure(S,'cars',[]); ensure(S,'activeCar',null); ensure(S,'prestige',0); ensure(S,'permaLuck',0);
+  ensure(S,'login',{date:'',streak:0,best:0,claimed:false});
+  ensure(S,'contracts2',[]); ensure(S,'event2',{id:'',ends:0}); ensure(S,'market2',[]); ensure(S,'profile2',{name:'Коллекционер',title:'Новичок',frame:'default'});
+  ensure(S,'stats2',{negotiations:0,accepted:0,counterWins:0,carsBought:0});
+  const save=()=>{try{localStorage.setItem('nomer_full_v1',JSON.stringify(S))}catch(e){}; if(typeof window.update==='function')window.update()};
+  const key=x=>`${x.text}|${x.region}|${x.type}`;
+  const carDefs=[
+    {id:'vaz2107',name:'ВАЗ 2107',price:0,prestige:1,bonus:0},
+    {id:'lada',name:'Lada Vesta',price:250000,prestige:2,bonus:0.02},
+    {id:'toyota',name:'Toyota Camry',price:900000,prestige:3,bonus:0.04},
+    {id:'bmw',name:'BMW M5',price:2500000,prestige:5,bonus:0.08},
+    {id:'mercedes',name:'Mercedes-AMG',price:4500000,prestige:7,bonus:0.12},
+    {id:'porsche',name:'Porsche 911',price:9000000,prestige:10,bonus:0.18}
+  ];
+  function ownedCar(id){return S.cars.some(c=>c.id===id)}
+  function eventNow(){
+    const week=Math.floor(Date.now()/604800000); const id='W'+week;
+    if(S.event2.id!==id){S.event2={id,ends:(week+1)*604800000};save()}
+    const types=[['777 WEEK','Номера с 777 продаются с бонусом +50%',1.5],['CAUCASUS','Номера регионов Кавказа получают +35% к цене',1.35],['SECRET NIGHT','Шанс редких номеров повышен',1.2],['BLACK MARKET','Рынок чаще предлагает цену выше оценки',1.3]];
+    return types[week%types.length];
+  }
+  function eventBonus(x){const e=eventNow();if(e[0]==='777 WEEK'&&/777/.test(x.text))return e[2];if(e[0]==='CAUCASUS'&&['01','06','07','08','09','15','20','26','30'].includes(String(x.region)))return e[2];return 1}
+  function daily(){
+    const d=new Date().toISOString().slice(0,10);
+    if(S.login.date!==d){S.login.claimed=false; if(S.login.date){const prev=new Date(S.login.date),now=new Date(d);const diff=Math.round((now-prev)/86400000);S.login.streak=diff===1?S.login.streak+1:1}else S.login.streak=1;S.login.best=Math.max(S.login.best,S.login.streak);S.login.date=d;save()}
+  }
+  daily(); eventNow();
+  function profileSheet(){
+    const frames=['default','silver','gold','neon','secret'];
+    const titles=['Новичок','Перекуп','Коллекционер','Охотник','Легенда','Король номеров'];
+    baseOpen('stats');
+    setTimeout(()=>{},0);
+  }
+  function setSheet2(title,body){
+    const t=document.getElementById('sheetTitle'),b=document.getElementById('sheetBody'),sh=document.getElementById('sheet');
+    if(!t||!b||!sh)return;t.textContent=title;b.innerHTML=body;sh.classList.add('open');
+  }
+  function css2(){
+    if(document.getElementById('grand-style'))return;
+    const st=document.createElement('style');st.id='grand-style';st.textContent=`
+      .grand-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.grand-card{background:#121722;border:1px solid #30384a;border-radius:17px;padding:13px;margin:8px 0}.grand-card button{border:0;border-radius:10px;padding:10px;font-weight:900;background:#252c3c;color:#fff}.car-big{font-size:20px;font-weight:950}.car-owned{border-color:#45e29b}.badge2{display:inline-block;padding:4px 8px;border-radius:999px;background:#252c3c;font-size:10px}.profile-frame{border:1px solid #41495e;border-radius:18px;padding:16px;text-align:center;background:#111622}.profile-frame.goldf{box-shadow:0 0 25px #ffd15a33;border-color:#ffd15a}.profile-frame.neonf{box-shadow:0 0 25px #9c5cff55;border-color:#9c5cff}.contract{display:flex;justify-content:space-between;gap:8px;align-items:center}.contract button{white-space:nowrap}.event-hero{padding:16px;border-radius:18px;background:linear-gradient(135deg,#171326,#111a22);border:1px solid #5a477d}.counter{display:grid;grid-template-columns:1fr 1fr;gap:7px}.ranknum{font-size:18px;font-weight:950}
+    `;document.head.appendChild(st)
+  }
+  function contracts(){
+    const day=new Date().toISOString().slice(0,10); if(!S.contracts2.length||S.contracts2[0].day!==day){
+      const pool=[
+        {id:'c777',day,txt:'Найди номер с 777',kind:'777',need:1,reward:150000,done:0},
+        {id:'c3',day,txt:'Собери 3 редких+',kind:'rare',need:3,reward:180000,done:0},
+        {id:'c10',day,txt:'Открой 10 номеров',kind:'open',need:10,reward:50000,done:0}
+      ];S.contracts2=pool;save()
+    }
+    S.contracts2.forEach(c=>{if(c.kind==='777')c.done=Math.min(c.need,(S.history||[]).filter(x=>/777/.test(x.text)).length);if(c.kind==='rare')c.done=Math.min(c.need,(S.history||[]).filter(x=>x.rank>=2).length);if(c.kind==='open')c.done=Math.min(c.need,S.opened||0)});
+  }
+  contracts();
+  window.openGrand=function(kind){
+    css2(); daily(); const ev=eventNow();
+    if(kind==='market2'){
+      const list=(S.garage||[]).slice(0,12).map((x,i)=>{const mult=(0.85+Math.random()*0.75)*eventBonus(x);const offer=Math.max(100,Math.round(x.price*mult/10)*10);const npc=['Илья — коллекционер','Артур — перекуп','Сергей — фанат BMW','Азамат — охотник за 777','Денис — инвестор'][i%5];return `<div class="grand-card"><div class="mrow"><div><b>${x.icon} ${x.text}</b><div class="muted2">${npc} · оценка ₽${F(x.price)}</div></div><b class="gold">₽${F(offer)}</b></div><div class="counter"><button onclick="npcDeal('${x.id}',${offer},'accept')">💰 Принять</button><button onclick="npcCounter('${x.id}',${offer})">🤝 Торг</button></div></div>`}).join('');
+      setSheet2('🏪 Живой рынок',`<div class="event-hero"><b>🔥 ${ev[0]}</b><div class="muted2" style="margin-top:5px">${ev[1]}</div></div><div class="section-title">ПОКУПАТЕЛИ</div>${list||'<div class="empty">В гараже нет номеров.</div>'}`);return;
+    }
+    if(kind==='cars'){
+      const cards=carDefs.map(c=>{const own=ownedCar(c.id),req=S.prestige>=c.prestige;return `<div class="grand-card ${own?'car-owned':''}"><div class="car-big">🚘 ${c.name}</div><div class="muted2">Цена ₽${F(c.price)} · бонус удачи +${Math.round(c.bonus*100)}% · престиж ${c.prestige}</div><button style="margin-top:9px;width:100%" ${own?'disabled':''} onclick="buyCar('${c.id}')">${own?'✅ Куплена':!req?'🔒 Нужен престиж '+c.prestige:'Купить за ₽'+F(c.price)}</button>${own?`<button style="margin-top:6px;width:100%" onclick="equipCar('${c.id}')">${S.activeCar===c.id?'⭐ Активна':'Выбрать машину'}</button>`:''}</div>`}).join('');
+      setSheet2('🚘 Автопарк',`<div class="info">Машины дают постоянный бонус к удаче. Чем престижнее машина, тем сильнее бонус.</div>${cards}`);return;
+    }
+    if(kind==='login'){
+      const reward=Math.min(100000,10000*S.login.streak);setSheet2('📅 Ежедневный бонус',`<div class="profile-frame"><div class="ranknum">🔥 Серия: ${S.login.streak} дней</div><div class="muted2">Рекорд: ${S.login.best} дней</div><div style="font-size:28px;margin:12px">⚡ ${50+S.login.streak*10}</div><b>+ ₽${F(reward)}</b></div><button class="btn" style="width:100%;margin-top:10px" ${S.login.claimed?'disabled':''} onclick="claimLogin(${50+S.login.streak*10},${reward})">${S.login.claimed?'✅ Сегодня получено':'🎁 Забрать награду'}</button>`);return;
+    }
+    if(kind==='contracts'){
+      contracts();const rows=S.contracts2.map(c=>`<div class="grand-card contract"><div><b>📜 ${c.txt}</b><div class="muted2">${c.done}/${c.need} · ₽${F(c.reward)}</div></div><button ${c.done<c.need||c.claimed?'disabled':''} onclick="claimContract('${c.id}')">${c.claimed?'Получено':c.done>=c.need?'Забрать':'В процессе'}</button></div>`).join('');setSheet2('📜 Контракты',rows);return;
+    }
+    if(kind==='prestige'){
+      const can=S.xp>=10000;setSheet2('👑 Престиж',`<div class="event-hero"><div class="ranknum">Престиж ${S.prestige}</div><div class="muted2">Следующий престиж: ${S.prestige+1}</div><div style="margin-top:10px">Постоянный бонус удачи: <b>+${Math.round(S.permaLuck*100)}%</b></div></div><div class="info" style="margin-top:10px">Для престижа нужно 10000 XP. Уровень сбросится, но сохранятся гараж, деньги, коллекции, машины и постоянный бонус.</div><button class="btn" style="width:100%;margin-top:10px" ${can?'':'disabled'} onclick="doPrestige()">${can?'👑 Получить престиж':'🔒 Нужно '+(10000-S.xp)+' XP'}</button>`);return;
+    }
+    if(kind==='profile'){
+      const frames=[['default','Обычная'],['silver','Серебряная'],['goldf','Золотая'],['neonf','Неоновая']];const frame=frames.map(f=>`<button onclick="setFrame('${f[0]}')" style="margin:3px">${f[1]}</button>`).join('');
+      setSheet2('👤 Профиль',`<div class="profile-frame ${S.profile2.frame}"><div class="ranknum">${S.profile2.name}</div><div class="muted2">${S.profile2.title} · уровень ${typeof level==='function'?level():1} · престиж ${S.prestige}</div></div><button class="btn" style="width:100%;margin-top:9px" onclick="renameProfile()">✏️ Изменить имя</button><div class="section-title">РАМКИ</div>${frame}`);return;
+    }
+    if(kind==='rating'){
+      const score=(S.totalEarned||0)+(S.found||0)*10000+(S.prestige||0)*1000000+(S.garage||[]).reduce((a,x)=>a+x.price,0);const arr=[['Ты',score],['Коллекционер',Math.round(score*.84)],['Охотник777',Math.round(score*.69)],['Перекуп',Math.round(score*.51)],['Легенда',Math.round(score*.32)]];setSheet2('🏆 Рейтинг',arr.sort((a,b)=>b[1]-a[1]).map((r,i)=>`<div class="grand-card"><b>${i+1}. ${r[0]}</b><span style="float:right" class="gold">${F(r[1])} очков</span></div>`).join(''));return;
+    }
+    if(kind==='event'){
+      setSheet2('🌌 Событие',`<div class="event-hero"><div class="ranknum">${ev[0]}</div><div>${ev[1]}</div><div class="muted2" style="margin-top:8px">До: ${new Date(S.event2.ends).toLocaleString('ru-RU')}</div></div><button class="btn" style="width:100%;margin-top:10px" onclick="closeSheet()">🔥 Охотиться</button>`);return;
+    }
+    baseOpen(kind);
+  };
+  window.npcDeal=function(id,offer){const x=S.garage.find(a=>a.id===id);if(!x)return;offer=Math.round(offer*eventBonus(x));S.garage=S.garage.filter(a=>a.id!==id);if(typeof removeUnique==='function')removeUnique(x);S.money+=offer;S.totalEarned+=offer;S.sales++;S.marketSales++;S.stats2.accepted++;S.stats2.negotiations++;if(window.addXP)window.addXP(20);save();openGrand('market2')};
+  window.npcCounter=function(id,offer){const x=S.garage.find(a=>a.id===id);if(!x)return;S.stats2.negotiations++;const requested=Math.round(offer*1.2/10)*10;const chance=Math.min(.9,.35+(x.rank||0)*.08+(S.permaLuck||0));if(Math.random()<chance){S.stats2.counterWins++;npcDeal(id,requested);alert('🤝 Покупатель согласился на твою цену!')}else{alert('❌ Покупатель отказался. Попробуй другого.')};save()};
+  window.buyCar=function(id){const c=carDefs.find(x=>x.id===id);if(!c||ownedCar(id)||S.prestige<c.prestige||S.money<c.price)return;S.money-=c.price;S.cars.push({id:c.id,name:c.name});S.stats2.carsBought++;save();openGrand('cars')};
+  window.equipCar=function(id){if(!ownedCar(id))return;S.activeCar=id;save();openGrand('cars')};
+  window.claimLogin=function(e,m){if(S.login.claimed)return;S.energy+=e;S.money+=m;S.totalEarned+=m;S.login.claimed=true;if(window.addXP)window.addXP(25);save();openGrand('login')};
+  window.claimContract=function(id){const c=S.contracts2.find(x=>x.id===id);if(!c||c.claimed||c.done<c.need)return;c.claimed=true;S.money+=c.reward;S.totalEarned+=c.reward;if(window.addXP)window.addXP(40);save();openGrand('contracts')};
+  window.doPrestige=function(){if(S.xp<10000)return;if(!confirm('Получить престиж? XP и уровень сбросятся.'))return;S.prestige++;S.permaLuck=(S.permaLuck||0)+.05;S.xp=0;S.levelPoints=0;S.luck=Math.min(3,(S.luck||0)+.25);save();openGrand('prestige')};
+  window.renameProfile=function(){const n=(prompt('Имя профиля:',S.profile2.name)||'').trim();if(n){S.profile2.name=n.slice(0,24);save();openGrand('profile')}};
+  window.setFrame=function(f){S.profile2.frame=f;save();openGrand('profile')};
+  const oldMake2=window.make;
+  window.make=function(){const x=oldMake2();const car=carDefs.find(c=>c.id===S.activeCar);if(car&&car.bonus){x.price=Math.round(x.price*(1+car.bonus));}x.price=Math.round(x.price*(1+(S.permaLuck||0)*.15));x.price=Math.round(x.price*eventBonus(x));return x};
+  const oldOpenSheet=window.openSheet;
+  window.openSheet=function(kind){
+    if(kind==='top'){oldOpenSheet(kind);setTimeout(()=>{const b=document.getElementById('sheetBody');if(b)b.innerHTML+=`<div class="section-title">РАСШИРЕННЫЕ СИСТЕМЫ</div><div class="grand-grid"><button class="adv-tile" onclick="openGrand('cars')">🚘 Автопарк</button><button class="adv-tile" onclick="openGrand('market2')">🏪 Живой рынок</button><button class="adv-tile" onclick="openGrand('login')">📅 Бонус</button><button class="adv-tile" onclick="openGrand('contracts')">📜 Контракты</button><button class="adv-tile" onclick="openGrand('prestige')">👑 Престиж</button><button class="adv-tile" onclick="openGrand('rating')">🏆 Рейтинг</button><button class="adv-tile" onclick="openGrand('profile')">👤 Профиль</button><button class="adv-tile" onclick="openGrand('event')">🌌 Событие</button></div>`},0);return;} if(kind==='garage'){baseOpen(kind);return;} baseOpen(kind);
+  };
+  // Extend existing advanced menu with grand systems.
+  const oldAdv=window.openAdvanced;
+  window.openAdvanced=function(kind){
+    if(['market','stats','collections2','wish','season','tasks2','ach','backup','admin','rules'].includes(kind))return oldAdv(kind);
+    return window.openGrand(kind);
+  };
+  setTimeout(()=>{
+    const nav=document.querySelector('.bottom');if(nav&&!document.getElementById('grandNav')){const b=document.createElement('button');b.className='nav';b.id='grandNav';b.innerHTML='<div>🚘</div>Авто';b.onclick=()=>openGrand('cars');nav.appendChild(b);nav.style.gridTemplateColumns='repeat(7,1fr)'}
+  },100);
+  css2(); save();
+})();
+</script>
 </body>
 </html>
