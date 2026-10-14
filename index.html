@@ -17,7 +17,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}body{padding-bottom:en
 .card{margin-top:11px;background:linear-gradient(145deg,#151925,#10131c);border:1px solid #303646;border-radius:24px;padding:14px;box-shadow:0 20px 60px #0008}.cardhead{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
 .plate-stage{min-height:250px;display:grid;place-items:center;position:relative;overflow:hidden}.plate-stage:before{content:"";position:absolute;width:250px;height:140px;border-radius:50%;background:#7057ff33;filter:blur(38px)}
 .plate-wrap{position:relative;width:100%;max-width:380px}.ru-flag{display:inline-flex;flex-direction:column;width:19px;height:12px;overflow:hidden;border-radius:1px;vertical-align:middle;margin-left:6px;box-shadow:0 0 0 1px #0004}.ru-flag i{display:block;flex:1}.ru-flag .w{background:#fff}.ru-flag .b{background:#2455a4}.ru-flag .r{background:#d52b1e}
-.plate{background:linear-gradient(#fafafa,#dfe3e7);color:#101319;border-radius:9px;border:3px solid #1b1e25;box-shadow:0 14px 35px #0008,0 0 0 1px #777;display:flex;align-items:center;justify-content:center;min-height:94px;font-size:36px;font-weight:1000;letter-spacing:2px;position:relative;transform:perspective(500px) rotateX(3deg);padding:0 10px}.plate:after{content:"RUS";position:absolute;right:7px;bottom:3px;font-size:8px;font-weight:800;color:currentColor}.plate.mini{min-height:72px;font-size:25px}.plate.civil{background:linear-gradient(#fbfbfb,#dfe3e8);color:#111}.plate.taxi{background:linear-gradient(#fff38a,#e8c72f);color:#111}.plate.military{background:linear-gradient(#101216,#252a31);color:#fff;border-color:#626a74}.plate.diplomatic{background:linear-gradient(#fff,#e9edf2);color:#18204c;border-color:#b9c4e8}.plate.police{background:linear-gradient(#164a9b,#0b2d68);color:#fff;border-color:#5d8fd9}
+.plate{background:linear-gradient(#fafafa,#dfe3e7);color:#101319;border-radius:9px;border:3px solid #1b1e25;box-shadow:0 14px 35px #0008,0 0 0 1px #777;display:flex;align-items:stretch;justify-content:space-between;min-height:94px;font-size:36px;font-weight:1000;letter-spacing:1.5px;position:relative;transform:perspective(500px) rotateX(3deg);padding:0}.plate-main{display:flex;align-items:center;justify-content:center;flex:1;padding:0 10px;white-space:nowrap}.plate-side{width:78px;border-left:2px solid currentColor;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1}.plate-side .region{font-size:28px;font-weight:1000}.plate-side .rus{font-size:9px;font-weight:850;margin-top:5px}.ru-flag{display:inline-flex;flex-direction:column;width:20px;height:12px;overflow:hidden;border-radius:1px;box-shadow:0 0 0 1px #0004;margin-top:4px}.ru-flag i{display:block;flex:1}.ru-flag .w{background:#fff}.ru-flag .b{background:#2455a4}.ru-flag .r{background:#d52b1e}.plate.mini{min-height:72px;font-size:25px}.plate.mini .plate-side{width:60px}.plate.mini .plate-side .region{font-size:20px}.plate.mini .plate-side .rus{font-size:7px}.plate.mini .ru-flag{width:15px;height:9px}.plate.civil{background:linear-gradient(#fbfbfb,#dfe3e8);color:#111}.plate.taxi{background:linear-gradient(#fff38a,#e8c72f);color:#111}.plate.military{background:linear-gradient(#101216,#252a31);color:#fff;border-color:#626a74}.plate.diplomatic{background:linear-gradient(#fff,#e9edf2);color:#18204c;border-color:#b9c4e8}.plate.diplomatic-red{background:linear-gradient(#ef2929,#c80f18);color:#fff;border-color:#8e1119}.plate.police{background:linear-gradient(#164a9b,#0b2d68);color:#fff;border-color:#5d8fd9}.plate.diplomatic-red .plate-side{border-left-color:#fff}.plate.military .plate-side,.plate.police .plate-side{border-left-color:#fff}
 .rarity{text-align:center;margin-top:10px;font-weight:950;font-size:19px}.subline{text-align:center;color:var(--muted);font-size:11px;margin-top:3px}.value{text-align:center;color:var(--gold);font-size:21px;font-weight:950;margin-top:7px}.bonus{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:9px 0}.tag{padding:6px 8px;border-radius:9px;background:#242938;border:1px solid #343c4e;font-size:10px;color:#dce2ee}
 .actions{display:grid;grid-template-columns:1fr 1.35fr;gap:8px}.btn{padding:14px;border-radius:14px;background:#202532;border:1px solid #32394b;font-weight:850}.spin{background:linear-gradient(135deg,#7256ff,#a448ff);box-shadow:0 9px 28px #764cff3d}.btn:disabled{opacity:.45}
 .next{margin-top:9px;text-align:center;color:var(--muted);font-size:10px}.progress{height:6px;background:#252b38;border-radius:8px;overflow:hidden;margin-top:6px}.progress i{display:block;height:100%;background:linear-gradient(90deg,#6f57ff,#d15cff)}
@@ -31,7 +31,7 @@ button{font:inherit;color:inherit;border:0;cursor:pointer}body{padding-bottom:en
 body.wow-shake{animation:screenShake .42s ease}@keyframes screenShake{0%,100%{transform:translate(0)}15%{transform:translate(-5px,3px)}30%{transform:translate(5px,-3px)}45%{transform:translate(-4px,-2px)}60%{transform:translate(4px,2px)}75%{transform:translate(-2px,1px)}}
 .fx{position:fixed;inset:0;z-index:60;display:none;place-items:center;background:radial-gradient(circle at 50% 45%,#ffffff18 0,#8a5cff12 20%,#05060bdb 72%);pointer-events:none}.fx.on{display:grid}.fxbox{position:relative;z-index:4;min-width:min(88vw,520px);padding:30px 22px;text-align:center;border:1px solid #fff5;border-radius:28px;background:linear-gradient(145deg,#111525ee,#26134eee 55%,#101321ee);box-shadow:0 0 25px #8b5cffaa,0 0 90px #9d43ff55;animation:pop .72s cubic-bezier(.17,.89,.32,1.4)}.fxbox.gold{box-shadow:0 0 35px #ffd45cdd,0 0 120px #ff9f2f88}.fxbox.red{box-shadow:0 0 35px #ff4777dd,0 0 130px #ff174c88}.fxbox.violet{box-shadow:0 0 30px #9c65ffdd,0 0 110px #7b39ff77}.fxicon{font-size:52px;animation:iconPulse .7s ease-in-out infinite alternate}.fxtitle{margin-top:7px;font-size:30px;font-weight:1000;letter-spacing:2px}.fxsub{margin-top:10px;font-size:16px;font-weight:850}.fxrarity{margin-top:5px;font-size:13px;color:#9fa8bd}.spark{position:absolute;width:6px;height:18px;border-radius:99px;background:#fff;box-shadow:0 0 12px #fff;animation:burst 1.35s cubic-bezier(.1,.8,.2,1) forwards}.flash{position:absolute;inset:0;background:#fff;opacity:0}.flash.go{animation:flash .34s ease}.ring{position:absolute;width:230px;height:230px;border:3px solid #ffd45c;border-radius:50%;box-shadow:0 0 30px #ffd45c;animation:ring 1.5s ease-out forwards;opacity:0}
 @keyframes pop{0%{transform:scale(.25) rotate(-5deg);opacity:0}55%{transform:scale(1.08) rotate(1deg);opacity:1}100%{transform:scale(1)}}@keyframes iconPulse{from{transform:scale(.92) rotate(-4deg)}to{transform:scale(1.14) rotate(4deg)}}@keyframes burst{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(var(--rot))}12%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.1) rotate(calc(var(--rot) + 260deg))}}@keyframes flash{0%{opacity:0}12%{opacity:.85}100%{opacity:0}}@keyframes ring{0%{transform:scale(.2);opacity:1}100%{transform:scale(2.5);opacity:0}}
-.dice{margin-top:8px;width:100%;background:#141824;border:1px solid #2d3444;border-radius:13px;padding:10px;font-size:11px;color:#c8cfdd}.danger{color:#ff6b7f}.success{color:#69e8aa}
+.dice{margin-top:8px;width:100%;background:#141824;border:1px solid #2d3444;border-radius:13px;padding:10px;font-size:11px;color:#c8cfdd}.danger{color:#ff6b7f}.success{color:#69e8aa}.admin-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.admin-card{background:#11141d;border:1px solid var(--line);border-radius:16px;padding:12px}.admin-card b{font-size:12px}.admin-card p{font-size:10px;color:var(--muted);margin:5px 0 9px}.admin-input{width:100%;padding:10px;border-radius:10px;border:1px solid #343b4c;background:#0b0e15;color:#fff;outline:none}.admin-btn{width:100%;padding:10px;border-radius:10px;background:#272d3c;border:1px solid #3b4357;font-weight:800}.admin-danger{background:#3a1721;border-color:#713247}.admin-good{background:#12372b;border-color:#246d53}
 </style>
 </head>
 <body>
@@ -47,7 +47,7 @@ body.wow-shake{animation:screenShake .42s ease}@keyframes screenShake{0%,100%{tr
 
 <section class="card">
 <div class="cardhead"><span>ПОСЛЕДНИЙ НОМЕР</span><span id="type">🚗 Гражданский</span></div>
-<div class="plate-stage"><div class="reel-track" id="reelTrack"></div><div class="plate-wrap" id="plateWrap"><div class="plate" id="plate">А 777 АА 07 <span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span></div></div></div>
+<div class="plate-stage"><div class="reel-track" id="reelTrack"></div><div class="plate-wrap" id="plateWrap"><div class="plate civil" id="plate"><span class="plate-main">А777 АА</span><span class="plate-side"><span class="region">07</span><span class="rus">RUS</span><span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span></span></div></div></div>
 <div class="rarity" id="rarity">Готов к охоте</div><div class="subline" id="subline">Нажми «Крутить», чтобы найти номер</div><div class="value" id="value">—</div><div class="bonus" id="bonus"></div>
 <div class="actions"><button class="btn" id="garageBtn">⭐ В гараж</button><button class="btn spin" id="spin">⚡ Крутить</button></div>
 <div class="next">Следующий уровень: <span id="nextText">100</span><div class="progress"><i id="levelBar"></i></div></div>
@@ -74,8 +74,10 @@ const BLAT=[
 ];
 const WORDS=["ВОР","ХАМ","ВАХ","НАХ","ХЕР","КОТ","СОС","КУМ","МУР","СРУ","РАК","МАК","СОК","НОС","СОН","ХАН","ВЕК","РОК","ТОК","МОХ","ЗОО","ТАК","СКЗ","САМ","ТЭК","ВКС","ВАК","МОР","РОМ","КУР","ТРУ","МАТ","РОТ","ВОН","УКА"];
 const $=id=>document.getElementById(id),fmt=n=>Math.round(n).toLocaleString("ru-RU");
-const defaultState={energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],luck:1,firstSpin:true,reroll:0,lastDice:0,tasks:{day:0,week:0,dayStamp:"",weekStamp:""},ach:[],talismans:{rare:false,epic:false,legend:false,mythic:false},garageBonus:0,contracts:0};
+const ADMIN_PASSWORD="1234"; let adminUnlocked=false;
+const defaultState={energy:1000,stamp:Date.now(),money:10000,opened:0,garage:[],history:[],unique:[],blockedPlates:[],luck:1,firstSpin:true,reroll:0,lastDice:0,tasks:{day:0,week:0,dayStamp:"",weekStamp:""},ach:[],talismans:{rare:false,epic:false,legend:false,mythic:false},garageBonus:0,contracts:0};
 let S=JSON.parse(localStorage.getItem("nomer_full_v1")||"null")||defaultState;
+if(!Array.isArray(S.blockedPlates))S.blockedPlates=[];
 let current=null,currentBatch=[],spinning=false,spinCount=1;
 
 function save(){localStorage.setItem("nomer_full_v1",JSON.stringify(S))}
@@ -93,12 +95,12 @@ function rarity(){
 }
 function type(){let x=Math.random(),b=1+lvl()*.12;if(x<.0035*b)return T[1];if(x<.005*b)return T[2];if(x<.01*b)return T[3];if(x<.018*b)return T[4];return T[0]}
 function rand(arr){return arr[Math.floor(Math.random()*arr.length)]}
-function make(){
+function makeRaw(){
  let ri=rarity(),t=type(),region=rand(REG),n=Math.floor(Math.random()*1000).toString().padStart(3,"0");
  let n4=Math.floor(Math.random()*10000).toString().padStart(4,"0"),a=rand(LETTERS),b=rand(LETTERS),c=rand(LETTERS),s1=rand(LETTERS),s2=rand(LETTERS);
  let bonus=1,tags=[],text,plateClass=t[0];
  if(t[0]=="military"){text=`${n4} ${s1}${s2} ${region}`;tags.push("военный формат")}
- else if(t[0]=="diplomatic"){let series=Math.random()<.28?"CD":Math.random()<.5?"D":"T",country=rand(["001","004","010","088","151"]),car=Math.floor(Math.random()*1000).toString().padStart(3,"0");text=`${country} ${series} ${car} ${region}`;tags.push("дипломатический формат")}
+ else if(t[0]=="diplomatic"){let series=Math.random()<.28?"CD":Math.random()<.5?"D":"T",country=rand(["001","004","010","088","151"]),car=Math.floor(Math.random()*1000).toString().padStart(3,"0");text=series==="CD"?`${country} CD ${Math.max(1,Math.floor(Math.random()*9))} ${region}`:`${series} ${rand(["AO","AB","AC","AM"])}${car} ${region}`;plateClass=series==="CD"?"diplomatic-red":"diplomatic";tags.push("дипломатический формат")}
  else if(t[0]=="police"){text=`${rand(LETTERS)} ${Math.floor(Math.random()*10000).toString().padStart(4,"0")} ${region}`;tags.push("полицейский формат")}
  else{text=`${a} ${n} ${b}${c} ${region}`;if(t[0]=="taxi")tags.push("такси · жёлтый знак")}
  if(t[0]=="civil"||t[0]=="taxi"){
@@ -123,7 +125,18 @@ function make(){
  if(S.firstSpin){price=70000+Math.floor(Math.random()*30001);S.firstSpin=false}
  return{id:Date.now()+"_"+Math.random().toString(36).slice(2),text,region,rank:ri,rarity:R[ri][0],type:t[0],typeName:t[1],icon:t[2],price,tags,plateClass};
 }
-function plateHTML(x){return `${x.text} <span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span>`}
+function plateKey(x){return `${x.type}|${x.text}`}
+function make(reserve=true){
+ let x,tries=0;
+ do{x=makeRaw();tries++}while(reserve && S.blockedPlates.includes(plateKey(x)) && tries<500);
+ if(reserve){let k=plateKey(x);if(!S.blockedPlates.includes(k))S.blockedPlates.push(k);if(S.blockedPlates.length>5000)S.blockedPlates=S.blockedPlates.slice(-5000)}
+ return x;
+}
+function plateHTML(x){
+  let parts=x.text.trim().split(/\s+/),main=parts.slice(0,-1).join(" "),region=parts[parts.length-1];
+  if(x.type==="civil"||x.type==="taxi") main=parts[0]+parts[1]+" "+parts[2];
+  return `<span class="plate-main">${main}</span><span class="plate-side"><span class="region">${region}</span><span class="rus">RUS</span><span class="ru-flag"><i class="w"></i><i class="b"></i><i class="r"></i></span></span>`;
+}
 function update(){
  recharge();let l=lvl(),next=TH[l+1]||TH[l],prev=TH[l],pct=l>=TH.length-1?100:Math.min(100,(S.opened-prev)/(next-prev)*100);
  $("energy").textContent=fmt(S.energy);$("money").textContent=fmt(S.money);$("level").textContent=l+1;$("opened").textContent=S.opened;$("luck").textContent="x"+S.luck.toFixed(2);$("levelBar").style.width=pct+"%";$("nextText").textContent=l>=TH.length-1?"MAX":fmt(next);
@@ -145,10 +158,23 @@ function spin(){
  spinning=true;S.energy-=spinCount;S.opened+=spinCount;currentBatch=Array.from({length:spinCount},make);
  let batch=currentBatch,track=$("reelTrack"),wrap=$("plateWrap");document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=true);$("spin").disabled=true;track.classList.add("on");wrap.style.opacity="0";
  let ticks=0,total=spinCount==1?20:28+spinCount*2;
- let interval=setInterval(()=>{track.innerHTML="";for(let i=0;i<Math.min(10,spinCount+5);i++){let fake=make(),d=document.createElement("div");d.className="reel-card";d.innerHTML=`<div class="plate mini ${fake.plateClass}">${plateHTML(fake)}</div>`;track.appendChild(d)}ticks++;if(ticks>=total){clearInterval(interval);setTimeout(()=>{track.classList.remove("on");wrap.style.opacity="1";current=batch.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];batch.forEach(x=>{S.history.unshift(x);if(!S.unique.some(u=>u.text==x.text&&u.region==x.region&&u.type==x.type))S.unique.unshift(x)});S.history=S.history.slice(0,300);S.unique=S.unique.slice(0,1000);if(current.rank>=2)S.luck=Math.min(3,S.luck+.01);save();update();document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=false);$("spin").disabled=false;spinning=false;effect(current)},800)}},95);
+ let interval=setInterval(()=>{track.innerHTML="";for(let i=0;i<Math.min(10,spinCount+5);i++){let fake=make(false),d=document.createElement("div");d.className="reel-card";d.innerHTML=`<div class="plate mini ${fake.plateClass}">${plateHTML(fake)}</div>`;track.appendChild(d)}ticks++;if(ticks>=total){clearInterval(interval);setTimeout(()=>{track.classList.remove("on");wrap.style.opacity="1";current=batch.slice().sort((a,b)=>b.rank-a.rank||b.price-a.price)[0];batch.forEach(x=>{S.history.unshift(x);if(!S.unique.some(u=>u.text==x.text&&u.region==x.region&&u.type==x.type))S.unique.unshift(x)});S.history=S.history.slice(0,300);S.unique=S.unique.slice(0,1000);if(current.rank>=2)S.luck=Math.min(3,S.luck+.01);save();update();document.querySelectorAll(".spin-opt").forEach(b=>b.disabled=false);$("spin").disabled=false;spinning=false;effect(current)},800)}},95);
 }
 function garageCap(){return 12+S.garageBonus}
 function removeGarage(id){S.garage=S.garage.filter(x=>x.id!=id);save();openSheet("garage")}
+function sellGarage(id){
+ let x=S.garage.find(x=>x.id==id);
+ if(!x)return;
+ let payout=Math.max(100,Math.round(x.price/10)*10);
+ if(!confirm(`Продать номер ${x.text} за ₽ ${fmt(payout)}?`))return;
+ S.garage=S.garage.filter(x=>x.id!=id);
+ S.blockedPlates=S.blockedPlates.filter(k=>k!==plateKey(x));
+ S.money+=payout;
+ save();
+ update();
+ openSheet("garage");
+ alert(`💰 Номер продан! +₽ ${fmt(payout)}`);
+}
 function addGarage(){if(!current)return;if(S.garage.some(x=>x.id==current.id)){removeGarage(current.id);return}if(S.garage.length>=garageCap()){alert("Гараж заполнен. Купи дополнительные места.");return}S.garage.unshift(current);save();update()}
 function buyEnergy(){if(S.money<2500)return alert("Не хватает денег");S.money-=2500;S.energy+=25;save();update();openSheet("shop")}
 function buyLuck(){if(S.money<15000)return alert("Не хватает денег");S.money-=15000;S.luck=Math.min(3,S.luck+.1);save();update();openSheet("shop")}
@@ -161,6 +187,28 @@ function dice(){
  let now=Date.now();if(S.energy>0)return alert("Кости активируются, когда ⚡ = 0.");if(now-S.lastDice<900000)return alert("Кости можно бросить раз в 15 минут.");
  S.lastDice=now;let a=1+Math.floor(Math.random()*6),b=1+Math.floor(Math.random()*6),sum=a+b;if(sum>5){S.energy+=10;save();update();alert(`🎲 ${a} + ${b} = ${sum}. Больше 5 — +10 ⚡!`)}else{save();alert(`🎲 ${a} + ${b} = ${sum}. Бонуса нет.`)}
 }
+function adminPanel(){
+  if(!adminUnlocked){let pass=prompt("🔐 Пароль администратора");if(pass!==ADMIN_PASSWORD)return alert("Неверный пароль");adminUnlocked=true}
+  let body=`<div class="info">Локальная админ-панель. Она управляет сохранением на этом устройстве. Пароль по умолчанию: <b>1234</b>.</div>
+  <div class="section-title">СТАТИСТИКА</div><div class="list"><div class="row"><div><b>Открытий</b></div><b>${fmt(S.opened)}</b></div><div class="row"><div><b>Баланс</b></div><b>₽ ${fmt(S.money)}</b></div><div class="row"><div><b>⚡ Заряды</b></div><b>${fmt(S.energy)}</b></div><div class="row"><div><b>Гараж</b></div><b>${S.garage.length}/${garageCap()}</b></div><div class="row"><div><b>Уникальных</b></div><b>${S.unique.length}</b></div></div>
+  <div class="section-title">ЭКОНОМИКА</div><div class="admin-grid">
+  <div class="admin-card"><b>💰 Деньги</b><p>Добавить любую сумму</p><input class="admin-input" id="adminMoney" type="number" value="100000"><button class="admin-btn admin-good" onclick="adminAddMoney()">Добавить</button></div>
+  <div class="admin-card"><b>⚡ Заряды</b><p>Добавить любую сумму</p><input class="admin-input" id="adminEnergy" type="number" value="1000"><button class="admin-btn admin-good" onclick="adminAddEnergy()">Добавить</button></div>
+  <div class="admin-card"><b>🍀 Удача</b><p>Установить множитель</p><input class="admin-input" id="adminLuck" type="number" step="0.01" value="3"><button class="admin-btn" onclick="adminSetLuck()">Установить</button></div>
+  <div class="admin-card"><b>📈 Открытия</b><p>Изменить прогресс уровня</p><input class="admin-input" id="adminOpened" type="number" value="10000"><button class="admin-btn" onclick="adminSetOpened()">Установить</button></div></div>
+  <div class="section-title">БЫСТРЫЕ ДЕЙСТВИЯ</div><div class="admin-grid"><button class="admin-btn" onclick="adminGiveMax()">🔥 MAX: ₽1 млрд + 100к ⚡</button><button class="admin-btn" onclick="adminSpawnRare(5)">🔴 Создать мифический</button><button class="admin-btn" onclick="adminSpawnRare(6)">🟡 Создать секретный</button><button class="admin-btn" onclick="adminUnlockLuck()">🍀 Удача ×3 + талисманы</button></div>
+  <div class="section-title">СБРОС</div><button class="admin-btn admin-danger" onclick="adminReset()">🗑 Полностью сбросить игру</button>`;
+  $("sheetTitle").textContent="⚙️ Админ-панель";$("sheetBody").innerHTML=body;$("sheet").classList.add("open");
+}
+function adminSave(){save();update();adminPanel()}
+function adminAddMoney(){let v=Math.max(0,Number($("adminMoney").value)||0);S.money+=v;adminSave()}
+function adminAddEnergy(){let v=Math.max(0,Math.floor(Number($("adminEnergy").value)||0));S.energy+=v;adminSave()}
+function adminSetLuck(){S.luck=Math.max(1,Math.min(3,Number($("adminLuck").value)||1));adminSave()}
+function adminSetOpened(){S.opened=Math.max(0,Math.floor(Number($("adminOpened").value)||0));adminSave()}
+function adminGiveMax(){S.money=1000000000;S.energy=100000;S.luck=3;adminSave()}
+function adminUnlockLuck(){S.luck=3;S.talismans={rare:true,epic:true,legend:true,mythic:true};adminSave()}
+function adminSpawnRare(rank){let x=make();x.rank=rank;x.rarity=R[rank][0];x.price=Math.max(R[rank][2],x.price*10);x.tags=["АДМИН · создан вручную",...x.tags];current=x;currentBatch=[x];S.history.unshift(x);S.unique.unshift(x);S.unique=S.unique.slice(0,1000);save();update();effect(x);adminPanel()}
+function adminReset(){if(!confirm("Точно удалить весь прогресс?"))return;localStorage.removeItem("nomer_full_v1");location.reload()}
 function chanceRows(){
  return `<div class="list">
  <div class="row"><div><b class="bluetxt">Обычный</b><small>68.5%</small></div><b>68.5%</b></div>
@@ -179,8 +227,8 @@ function expensiveRows(){
 function openSheet(kind){
  let title={garage:"🚘 Гараж",shop:"🛒 Магазин",top:"🏆 Топ",collection:"📚 Коллекция"}[kind]||"Nomer";$("sheetTitle").textContent=title;let body="";
  if(kind=="garage"){
-  body=`<div class="info">Места: <b>${S.garage.length}/${garageCap()}</b>. Базовый гараж — 12 мест. За ₽100 000: +2 места. За каждые 10 уровней: +12 мест.</div><button class="btn" style="width:100%;margin-top:10px" onclick="buySlot()">➕ +2 места · ₽100 000</button><div class="section-title">НОМЕРА</div>`;
-  body+=S.garage.length?`<div class="list">${S.garage.map(x=>`<div class="row"><div><b>${x.icon} ${x.text}</b><small>${R[x.rank][1]} ${x.rarity} · ₽ ${fmt(x.price)}</small></div><button onclick="removeGarage('${x.id}')">Убрать</button></div>`).join("")}</div>`:`<div class="empty">Гараж пуст.</div>`;
+  body=`<div class="info">Места: <b>${S.garage.length}/${garageCap()}</b>. Базовый гараж — 12 мест. За ₽100 000: +2 места. За каждые 10 уровней: +12 мест.<br><br>🔒 Один и тот же номер повторно не выпадает, пока он не продан. Номер в гараже тоже защищён от дубля. После продажи его комбинация снова становится доступной.<br><br>💰 При продаже номер приносит <b>90%</b> своей текущей цены.</div><button class="btn" style="width:100%;margin-top:10px" onclick="buySlot()">➕ +2 места · ₽100 000</button><div class="section-title">НОМЕРА</div>`;
+  body+=S.garage.length?`<div class="list">${S.garage.map(x=>{let payout=Math.max(100,Math.round(x.price/10)*10);return `<div class="row"><div><b>${x.icon} ${x.text}</b><small>${R[x.rank][1]} ${x.rarity} · цена ₽ ${fmt(x.price)} · продажа ₽ ${fmt(payout)}</small></div><div style="display:flex;gap:6px;align-items:center"><button onclick="sellGarage('${x.id}')">💰 Продать</button><button onclick="removeGarage('${x.id}')">Убрать</button></div></div>`}).join("")}</div>`:`<div class="empty">Гараж пуст.</div>`;
   body+=`<div class="section-title">КОНТРАКТЫ</div><div class="list">${R.slice(0,6).map((r,i)=>`<div class="row"><div><b>${r[0]}</b><small>5–10 номеров → ${R[Math.min(i+1,5)][0]}</small></div><button onclick="contract(${i})">Сдать</button></div>`).join("")}</div>`
  }
  if(kind=="shop"){
@@ -200,7 +248,7 @@ function openSheet(kind){
   Множители перемножаются, а итог сглаживается. Обычный номер ≈ ₽2 000, топовые — десятки миллионов.<br><br>
   <b>Уровни:</b> нечётный уровень — гарант редкого; 4-й и каждый 5-й — гарант эпика; каждый 10-й — золотая крутка; на 3 и 8 уровне — слот талисмана.<br><br>
   <b>Контракт:</b> 5–10 номеров одной редкости → один номер на ступень выше, до мифического. Номера сверх пяти идут в зачёт доплаты. Секретный — только из крутки. Сданное вместе с доплатой — не меньше 110% средней цены результата.<br><br>
-  <b>Золотая крутка:</b> эпический или выше — легендарный и выше с повышенным шансом.<br><br>
+  <b>Защита от дублей:</b> каждый выпавший номер резервируется. Повторно он не выпадет, пока не будет продан. Номер в гараже также не дублируется. После продажи номер снова может выпасть.<br><br><b>Золотая крутка:</b> эпический или выше — легендарный и выше с повышенным шансом.<br><br>
   <b>Гараж:</b> 12 мест. За ₽100 000 — +2 места. За каждые 10 уровней — +12. Места шансы не меняют.<br><br>
   <b>Задания:</b> 3 на день и 3 на неделю с наградами крупнее и разовыми достижениями за всю игру.<br><br>
   <b>Перекрут:</b> цифр, букв или региона повышает шанс на редкое; цена считается по всем вариантам. Перекрут чуть выгоднее обычной крутки, но в среднем не в плюс.<br><br>
@@ -216,7 +264,7 @@ $("spin").onclick=spin;$("garageBtn").onclick=addGarage;$("dice").onclick=dice;
 document.querySelectorAll(".spin-opt").forEach(b=>b.onclick=()=>{if(!spinning){spinCount=+b.dataset.count;update()}});
 document.querySelectorAll(".nav").forEach(n=>n.onclick=()=>{document.querySelectorAll(".nav").forEach(x=>x.classList.remove("active"));n.classList.add("active");let k=n.dataset.sheet;if(k=="game"){$("sheet").classList.remove("open");return}openSheet(k)});
 $("close").onclick=()=>$("sheet").classList.remove("open");
-$("settings").onclick=()=>openSheet("collection");
+$("settings").onclick=adminPanel;
 setInterval(()=>{recharge();update()},5000);update();
 </script>
 </body>
